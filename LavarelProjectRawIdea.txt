@@ -1,0 +1,21 @@
+First thing before going to the meat. I've tried to build a website with Laravel as its framework though because it's just a homework I didn't think about it that much and just prompt it out straight to the agent (I'm using Codex and its agentic AI). It does build the website just fine, everything is functioning since I intent it to be the base and can be further improved.
+
+My question is:
+What's and where's the database? I don't even think about any database to be used when building this website, but after the website is done and since there are CRUD, it was working just fine without any error. The logs and the data actually got saved and is displayed on the website (I doubt every single CRUD input was being hardcoded, though I'm not sure)
+
+About this app:
+This app is called "Daily Finance Tracker" with EN as its UI language (Despite what I will describe bellow).
+
+This app features includes:
+1. Login page: Dedicated login page for the user to login. If the user doesn't have any accounts yet, it can press "Register" and will be redirected to a dedicated registration page.
+1a. Login: Now for dedicated login page, it should be simple and straight forward. It should only contain 2 fields "Email or Username" and "Password". Yes, Username and Email since user should be able to login with both their username or email, can only chose one. If user types both Username and Email in the same field, it should be invalid. For the password, the user can toggle if the password are visible or not (or just dots or starts or whatever sensors).
+1b. For the dedicated registration page, it should also be simple, containing 4 fields "Username" "Email" "Password" "Confirm Password". On confirmation, what should be checked is the email and the confirmation should be sent to that email. Also since I'm not sure what database are being used and how to access it, I have no idea about how any password or just account in general is being stored, whether they're encrypted or not is unknown.
+2. Dashboard: Saldo total saat ini, ringkasan pemasukan & pengeluaran bulan ini, tombol "+" untuk tambah transaksi, tombol untuk pengaturan, tombol untuk ringkasan kategori, tombol untuk grafik bulanan.
+3. Tambah Transaksi: Form input jumlah nominal, kategori (makan, transport, dll), jenis (pemasukan/pengeluaran), tanggal, tombol Simpan.
+4. Riwayat Transaksi: List semua transaksi tersimpan (ListView), ditampilkan dari yang terbaru, tiap item bisa di-tap untuk detail.
+5. Detail Transaksi: Info lengkap satu transaksi (jumlah, kategori, tanggal, catatan), tombol Edit dan Hapus.
+6. Edit Transaksi: Form sama seperti Tambah Transaksi, tapi terisi data lama yang bisa diubah.
+7. Kategori: Daftar kategori pengeluaran/pemasukan, total per kategori (contoh: Makan Rp150.000, Transport Rp50.000).
+8. Statistik: Grafik sederhana (pie/bar) menampilkan proporsi pengeluaran per kategori dalam sebulan.
+9. Setting: Reset data, ganti mata uang (opsional), tentang aplikasi.
+10. Konfirmasi: Notifikasi saat transaksi berhasil disimpan, dihapus, atau ada error (contoh: input kosong)
