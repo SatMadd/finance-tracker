@@ -19,8 +19,6 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
-        $input['email'] = mb_strtolower(trim((string) ($input['email'] ?? '')));
-
         Validator::make($input, [
             'username' => $this->usernameRules(),
             'email' => $this->emailRules(),

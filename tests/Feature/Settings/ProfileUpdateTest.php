@@ -81,6 +81,34 @@ test('username update rejects another users username regardless of case', functi
         ->assertSessionHasErrors('username');
 });
 
+test('email update rejects another users email regardless of case', function () {
+    $user = User::factory()->create(['email' => 'current@example.com']);
+    User::factory()->create(['email' => 'taken@example.com']);
+
+    $this->actingAs($user)
+        ->patch(route('profile.update'), [
+            'username' => $user->username,
+            'name' => $user->name,
+            'email' => 'TAKEN@example.com',
+        ])
+        ->assertSessionHasErrors('email');
+});
+
+test('profile update allows keeping the current email and stores case changes exactly', function () {
+    $user = User::factory()->create(['email' => 'Current@example.com']);
+
+    $this->actingAs($user)
+        ->patch(route('profile.update'), [
+            'username' => $user->username,
+            'name' => $user->name,
+            'email' => 'current@example.COM',
+        ])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('profile.edit'));
+
+    expect($user->refresh()->email)->toBe('current@example.COM');
+});
+
 test('user can delete their account', function () {
     $user = User::factory()->create();
 

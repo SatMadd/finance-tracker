@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\Notification;
 use Laravel\Fortify\Features;
 
 beforeEach(function () {
@@ -27,7 +29,7 @@ test('new users can register', function () {
     $this->assertDatabaseHas('users', [
         'username' => 'Test.User',
         'name' => 'Test.User',
-        'email' => 'test@example.com',
+        'email' => 'TEST@example.com',
     ]);
 });
 
@@ -67,4 +69,22 @@ test('registration rejects emails that differ only by case', function () {
         'password' => 'password',
         'password_confirmation' => 'password',
     ])->assertSessionHasErrors('email');
+});
+
+test('registration sends an email verification notification and stores the exact email', function () {
+    Notification::fake();
+
+    $this->post(route('register.store'), [
+        'username' => 'email-owner',
+        'email' => 'Case.Sensitive@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ]);
+
+    $user = User::query()->where('username', 'email-owner')->firstOrFail();
+
+    expect($user->email)->toBe('Case.Sensitive@example.com')
+        ->and($user->email_verified_at)->toBeNull();
+
+    Notification::assertSentTo($user, VerifyEmail::class);
 });

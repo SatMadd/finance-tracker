@@ -13,12 +13,25 @@ test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 
     $response = $this->post(route('login.store'), [
-        'login' => '  '.strtoupper($user->email).'  ',
+        'login' => $user->email,
         'password' => 'password',
     ]);
 
     $this->assertAuthenticated();
     $response->assertRedirect(route('dashboard', absolute: false));
+});
+
+test('email login requires an exact case sensitive match', function () {
+    $user = User::factory()->create(['email' => 'test@example.com']);
+
+    $this->from(route('login'))
+        ->post(route('login.store'), [
+            'login' => 'Test@example.com',
+            'password' => 'password',
+        ])
+        ->assertSessionHasErrors(['login' => trans('auth.failed')]);
+
+    $this->assertGuest();
 });
 
 test('users with two factor enabled are redirected to two factor challenge', function () {
@@ -89,6 +102,19 @@ test('users can authenticate using a case insensitive username', function () {
     ])->assertRedirect(route('dashboard', absolute: false));
 
     $this->assertAuthenticatedAs($user);
+});
+
+test('password comparison remains case sensitive', function () {
+    $user = User::factory()->create();
+
+    $this->from(route('login'))
+        ->post(route('login.store'), [
+            'login' => $user->username,
+            'password' => 'PASSWORD',
+        ])
+        ->assertSessionHasErrors(['login' => trans('auth.failed')]);
+
+    $this->assertGuest();
 });
 
 test('email identifiers do not fall back to username matching', function () {

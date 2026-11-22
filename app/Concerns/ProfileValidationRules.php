@@ -4,7 +4,6 @@ namespace App\Concerns;
 
 use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Validation\Rule;
 
 trait ProfileValidationRules
 {
@@ -40,8 +39,9 @@ trait ProfileValidationRules
                     return;
                 }
 
+                $driver = DB::getDriverName();
                 $query = User::query()
-                    ->whereRaw('username = ? COLLATE NOCASE', [$value]);
+                    ->whereRaw($driver === 'sqlite' ? 'username = ? COLLATE NOCASE' : 'LOWER(username) = LOWER(?)', [$value]);
 
                 if ($userId !== null) {
                     $query->whereKeyNot($userId);
@@ -76,9 +76,22 @@ trait ProfileValidationRules
             'string',
             'email',
             'max:255',
-            $userId === null
-                ? Rule::unique(User::class)
-                : Rule::unique(User::class)->ignore($userId),
+            function (string $attribute, mixed $value, \Closure $fail) use ($userId): void {
+                if (! is_string($value)) {
+                    return;
+                }
+
+                $query = User::query()
+                    ->whereRaw('LOWER(email) = LOWER(?)', [$value]);
+
+                if ($userId !== null) {
+                    $query->whereKeyNot($userId);
+                }
+
+                if ($query->exists()) {
+                    $fail('The email has already been taken.');
+                }
+            },
         ];
     }
 }

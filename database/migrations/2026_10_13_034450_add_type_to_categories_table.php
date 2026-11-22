@@ -18,7 +18,11 @@ return new class extends Migration
             $table->index(['user_id', 'type', 'name'], 'categories_user_type_name_index');
         });
 
-        DB::statement('CREATE UNIQUE INDEX categories_owner_type_name_unique ON categories (COALESCE(user_id, 0), type, name COLLATE NOCASE)');
+        if (DB::getDriverName() === 'sqlite') {
+            DB::statement('CREATE UNIQUE INDEX categories_owner_type_name_unique ON categories (COALESCE(user_id, 0), type, name COLLATE NOCASE)');
+        } else {
+            DB::statement('CREATE UNIQUE INDEX categories_owner_type_name_unique ON categories (COALESCE(user_id, 0), type, LOWER(name))');
+        }
 
         app(EnsureDefaultCategoriesExist::class)->handle();
     }

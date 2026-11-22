@@ -36,7 +36,12 @@ return new class extends Migration
 
                     while (DB::table('users')
                         ->whereNotNull('username')
-                        ->whereRaw('username = ? COLLATE NOCASE', [$username])
+                        ->whereRaw(
+                            DB::getDriverName() === 'sqlite'
+                                ? 'username = ? COLLATE NOCASE'
+                                : 'LOWER(username) = LOWER(?)',
+                            [$username]
+                        )
                         ->exists()) {
                         $suffixText = '-'.$suffix;
                         $username = substr($baseUsername, 0, 30 - strlen($suffixText)).$suffixText;
@@ -51,7 +56,11 @@ return new class extends Migration
             $table->string('username', 30)->nullable(false)->change();
         });
 
-        DB::statement('CREATE UNIQUE INDEX users_username_unique_nocase ON users (username COLLATE NOCASE)');
+        if (DB::getDriverName() === 'sqlite') {
+            DB::statement('CREATE UNIQUE INDEX users_username_unique_nocase ON users (username COLLATE NOCASE)');
+        } else {
+            DB::statement('CREATE UNIQUE INDEX users_username_unique_nocase ON users (LOWER(username))');
+        }
     }
 
     /**

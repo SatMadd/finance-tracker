@@ -26,6 +26,7 @@ export default defineConfig({
         tailwindcss(),
         wayfinder({
             formVariants: true,
+            command: 'node wayfinder-generate.mjs',
         }),
     ]),
     server: {

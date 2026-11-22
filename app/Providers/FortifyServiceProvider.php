@@ -13,6 +13,10 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
+use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
+use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 
@@ -44,19 +48,34 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::authenticateUsing(function (Request $request): ?User {
-            $identifier = trim((string) $request->input(Fortify::username()));
+            $identifier = (string) $request->input(Fortify::username());
 
             if ($identifier === '') {
                 return null;
             }
 
-            $user = str_contains($identifier, '@')
-                ? User::query()->whereRaw('LOWER(email) = ?', [Str::lower($identifier)])->first()
-                : User::query()->whereRaw('username = ? COLLATE NOCASE', [$identifier])->first();
+            if (str_contains($identifier, '@')) {
+                $user = User::query()->where('email', $identifier)->first();
+            } else {
+                $driver = DB::getDriverName();
+                $user = User::query()
+                    ->whereRaw($driver === 'sqlite' ? 'username = ? COLLATE NOCASE' : 'LOWER(username) = LOWER(?)', [trim($identifier)])
+                    ->first();
+            }
 
             return $user !== null && Hash::check((string) $request->input('password'), $user->password)
                 ? $user
                 : null;
+        });
+        Fortify::authenticateThrough(function (Request $request): array {
+            return array_filter([
+                config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
+                Features::enabled(Features::twoFactorAuthentication())
+                    ? RedirectIfTwoFactorAuthenticatable::class
+                    : null,
+                AttemptToAuthenticate::class,
+                PrepareAuthenticatedSession::class,
+            ]);
         });
         Fortify::confirmPasswordsUsing(function (User $user, ?string $password): bool {
             return $password !== null && Hash::check($password, $user->password);
@@ -106,7 +125,13 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower(trim((string) $request->input(Fortify::username()))).'|'.$request->ip());
+            $identifier = (string) $request->input(Fortify::username());
+
+            if (! str_contains($identifier, '@')) {
+                $identifier = Str::lower(trim($identifier));
+            }
+
+            $throttleKey = Str::transliterate($identifier.'|'.$request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
         });

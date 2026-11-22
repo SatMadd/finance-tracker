@@ -20,9 +20,7 @@ return new class extends Migration
             throw new RuntimeException('Cannot create a case-insensitive email index while duplicate email addresses exist.');
         }
 
-        DB::table('users')->update(['email' => DB::raw('LOWER(email)')]);
-        DB::statement('DROP INDEX IF EXISTS users_email_unique');
-        DB::statement('CREATE UNIQUE INDEX users_email_unique_nocase ON users (email COLLATE NOCASE)');
+        DB::statement('CREATE UNIQUE INDEX users_email_lower_unique ON users (LOWER(email))');
     }
 
     /**
@@ -30,7 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement('DROP INDEX IF EXISTS users_email_unique_nocase');
-        DB::statement('CREATE UNIQUE INDEX users_email_unique ON users (email)');
+        DB::statement('DROP INDEX IF EXISTS users_email_lower_unique');
     }
 };
