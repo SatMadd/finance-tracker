@@ -28,6 +28,14 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
+        "DB_CONNECTION": "pgsql",
+        "DB_HOST": "aws-1-ap-southeast-2.pooler.supabase.com",
+        "DB_PORT": "6543",
+        "DB_DATABASE": "postgres",
+        "DB_USERNAME": "postgres.kclmtwtekfgknumczhir",
+        "SESSION_DRIVER": "database",
+        "CACHE_STORE": "database",
+        "QUEUE_CONNECTION": "sync",
         "LOG_CHANNEL": "stderr"
     }
 }
