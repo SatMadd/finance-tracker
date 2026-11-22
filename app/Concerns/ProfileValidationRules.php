@@ -4,6 +4,7 @@ namespace App\Concerns;
 
 use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\DB;
 
 trait ProfileValidationRules
 {
