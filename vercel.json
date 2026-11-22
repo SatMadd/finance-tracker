@@ -27,7 +27,9 @@
     ],
     "env": {
         "APP_ENV": "production",
-        "APP_DEBUG": "true",
+        "APP_DEBUG": "false",
+        "APP_URL": "https://finance-tracker-eta-brown.vercel.app",
+        "ASSET_URL": "https://finance-tracker-eta-brown.vercel.app",
         "DB_CONNECTION": "pgsql",
         "DB_HOST": "aws-1-ap-southeast-2.pooler.supabase.com",
         "DB_PORT": "6543",
