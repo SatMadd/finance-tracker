@@ -1,14 +1,11 @@
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import {
-    Building2,
     Check,
     CheckCircle2,
     Clock,
-    Mail,
     Pencil,
     Shield,
     Trash2,
-    UserCheck,
     UserPlus,
     Users,
     X,
@@ -16,9 +13,11 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { formatDate } from '@/lib/finance';
 import { dashboard } from '@/routes';
-import { index as organizationsIndex, show as organizationShow } from '@/routes/organizations';
+import {
+    index as organizationsIndex,
+    show as organizationShow,
+} from '@/routes/organizations';
 import { index as membersIndex } from '@/routes/organizations/members';
 import { index as orgTransactionsIndex } from '@/routes/organizations/transactions';
 
@@ -48,7 +47,7 @@ export default function OrganizationMembersIndex({
     organization,
     members,
     pendingRequests,
-    userRole,
+    userRole: _userRole,
     isManager,
     authUserId,
 }: {
@@ -86,27 +85,40 @@ export default function OrganizationMembersIndex({
     function submitEdit(e: FormEvent) {
         e.preventDefault();
         if (!editingMember) return;
-        editForm.put(`/organizations/${organization.slug}/members/${editingMember.id}`, {
-            onSuccess: () => {
-                setEditingMember(null);
-                editForm.reset();
+        editForm.put(
+            `/organizations/${organization.slug}/members/${editingMember.id}`,
+            {
+                onSuccess: () => {
+                    setEditingMember(null);
+                    editForm.reset();
+                },
             },
-        });
+        );
     }
 
     function handleRemoveMember(member: MemberItem) {
-        if (confirm(`Remove @${member.username} (${member.name}) from ${organization.name}?`)) {
-            router.delete(`/organizations/${organization.slug}/members/${member.id}`);
+        if (
+            confirm(
+                `Remove @${member.username} (${member.name}) from ${organization.name}?`,
+            )
+        ) {
+            router.delete(
+                `/organizations/${organization.slug}/members/${member.id}`,
+            );
         }
     }
 
     function handleApprove(requestId: number) {
-        router.post(`/organizations/${organization.slug}/requests/${requestId}/approve`);
+        router.post(
+            `/organizations/${organization.slug}/requests/${requestId}/approve`,
+        );
     }
 
     function handleReject(requestId: number) {
         if (confirm('Reject this join request?')) {
-            router.post(`/organizations/${organization.slug}/requests/${requestId}/reject`);
+            router.post(
+                `/organizations/${organization.slug}/requests/${requestId}/reject`,
+            );
         }
     }
 
@@ -118,11 +130,16 @@ export default function OrganizationMembersIndex({
                 <section className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div>
                         <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-muted-foreground">{organization.name}</span>
+                            <span className="text-sm font-medium text-muted-foreground">
+                                {organization.name}
+                            </span>
                         </div>
-                        <h1 className="mt-1 text-3xl font-semibold tracking-tight">Team Members & Roles</h1>
+                        <h1 className="mt-1 text-3xl font-semibold tracking-tight">
+                            Team Members & Roles
+                        </h1>
                         <p className="mt-1 text-sm text-muted-foreground">
-                            Manage collaborators, assign roles, and review membership requests.
+                            Manage collaborators, assign roles, and review
+                            membership requests.
                         </p>
                     </div>
 
@@ -173,13 +190,17 @@ export default function OrganizationMembersIndex({
                 {isManager && pendingRequests.length > 0 && (
                     <section className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-5 shadow-xs">
                         <div className="flex items-center gap-2">
-                            <Clock size={18} className="text-amber-600 dark:text-amber-400" />
+                            <Clock
+                                size={18}
+                                className="text-amber-600 dark:text-amber-400"
+                            />
                             <h2 className="font-semibold text-amber-900 dark:text-amber-200">
                                 Pending Join Requests ({pendingRequests.length})
                             </h2>
                         </div>
                         <p className="mt-1 text-xs text-muted-foreground">
-                            These users entered your organization's code and are waiting for your approval.
+                            These users entered your organization's code and are
+                            waiting for your approval.
                         </p>
 
                         <div className="mt-4 space-y-3">
@@ -190,11 +211,16 @@ export default function OrganizationMembersIndex({
                                 >
                                     <div>
                                         <p className="font-medium">
-                                            {req.name} <span className="text-muted-foreground">(@{req.username})</span>
+                                            {req.name}{' '}
+                                            <span className="text-muted-foreground">
+                                                (@{req.username})
+                                            </span>
                                         </p>
-                                        <p className="text-xs text-muted-foreground">{req.email}</p>
+                                        <p className="text-xs text-muted-foreground">
+                                            {req.email}
+                                        </p>
                                         {req.message && (
-                                            <p className="mt-1 text-xs italic text-foreground/80">
+                                            <p className="mt-1 text-xs text-foreground/80 italic">
                                                 "{req.message}"
                                             </p>
                                         )}
@@ -210,7 +236,9 @@ export default function OrganizationMembersIndex({
                                         </button>
                                         <button
                                             type="button"
-                                            onClick={() => handleApprove(req.id)}
+                                            onClick={() =>
+                                                handleApprove(req.id)
+                                            }
                                             className="inline-flex h-8 items-center gap-1 rounded-lg bg-primary px-3 text-xs font-medium text-primary-foreground hover:bg-primary/90"
                                         >
                                             <CheckCircle2 size={14} />
@@ -228,7 +256,8 @@ export default function OrganizationMembersIndex({
                     <div className="border-b px-5 py-4">
                         <h2 className="font-semibold">Team Members</h2>
                         <p className="mt-0.5 text-xs text-muted-foreground">
-                            {members.length} {members.length === 1 ? 'member' : 'members'} total
+                            {members.length}{' '}
+                            {members.length === 1 ? 'member' : 'members'} total
                         </p>
                     </div>
 
@@ -252,7 +281,9 @@ export default function OrganizationMembersIndex({
                                         </div>
                                         <div>
                                             <div className="flex flex-wrap items-center gap-2">
-                                                <p className="font-semibold text-foreground">{member.name}</p>
+                                                <p className="font-semibold text-foreground">
+                                                    {member.name}
+                                                </p>
                                                 <span className="text-xs text-muted-foreground">
                                                     (@{member.username})
                                                 </span>
@@ -260,7 +291,9 @@ export default function OrganizationMembersIndex({
                                                     className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium capitalize ${roleBadge}`}
                                                 >
                                                     <Shield size={11} />
-                                                    {member.role === 'co_owner' ? 'Co-owner' : member.role}
+                                                    {member.role === 'co_owner'
+                                                        ? 'Co-owner'
+                                                        : member.role}
                                                 </span>
                                                 {member.label && (
                                                     <span className="rounded-md bg-secondary px-2 py-0.5 text-[10px] font-medium text-secondary-foreground">
@@ -268,7 +301,9 @@ export default function OrganizationMembersIndex({
                                                     </span>
                                                 )}
                                             </div>
-                                            <p className="mt-0.5 text-xs text-muted-foreground">{member.email}</p>
+                                            <p className="mt-0.5 text-xs text-muted-foreground">
+                                                {member.email}
+                                            </p>
                                         </div>
                                     </div>
 
@@ -280,8 +315,13 @@ export default function OrganizationMembersIndex({
                                                 onClick={() => {
                                                     setEditingMember(member);
                                                     editForm.setData({
-                                                        role: member.role === 'owner' ? 'co_owner' : member.role,
-                                                        label: member.label || '',
+                                                        role:
+                                                            member.role ===
+                                                            'owner'
+                                                                ? 'co_owner'
+                                                                : member.role,
+                                                        label:
+                                                            member.label || '',
                                                     });
                                                 }}
                                                 className="inline-flex h-8 items-center gap-1 rounded-lg border px-2.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -292,7 +332,11 @@ export default function OrganizationMembersIndex({
                                             {member.user_id !== authUserId && (
                                                 <button
                                                     type="button"
-                                                    onClick={() => handleRemoveMember(member)}
+                                                    onClick={() =>
+                                                        handleRemoveMember(
+                                                            member,
+                                                        )
+                                                    }
                                                     className="inline-flex h-8 items-center gap-1 rounded-lg border border-destructive/20 p-2 text-xs font-medium text-destructive hover:bg-destructive/10"
                                                     title="Remove from organization"
                                                 >
@@ -312,7 +356,9 @@ export default function OrganizationMembersIndex({
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
                         <div className="w-full max-w-md rounded-2xl border bg-card p-6 shadow-xl">
                             <div className="flex items-center justify-between">
-                                <h3 className="text-lg font-semibold">Invite Member by Email</h3>
+                                <h3 className="text-lg font-semibold">
+                                    Invite Member by Email
+                                </h3>
                                 <button
                                     type="button"
                                     onClick={() => setInviteOpen(false)}
@@ -322,36 +368,62 @@ export default function OrganizationMembersIndex({
                                 </button>
                             </div>
                             <p className="mt-1 text-xs text-muted-foreground">
-                                Add a team member or leader directly to <strong>{organization.name}</strong>.
+                                Add a team member or leader directly to{' '}
+                                <strong>{organization.name}</strong>.
                             </p>
 
-                            <form onSubmit={submitInvite} className="mt-4 space-y-4">
+                            <form
+                                onSubmit={submitInvite}
+                                className="mt-4 space-y-4"
+                            >
                                 <div>
-                                    <label className="block text-xs font-medium text-muted-foreground">Email *</label>
+                                    <label className="block text-xs font-medium text-muted-foreground">
+                                        Email *
+                                    </label>
                                     <input
                                         type="email"
                                         required
                                         value={inviteForm.data.email}
-                                        onChange={(e) => inviteForm.setData('email', e.target.value)}
+                                        onChange={(e) =>
+                                            inviteForm.setData(
+                                                'email',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="colleague@company.com"
                                         className="mt-1.5 h-10 w-full rounded-lg border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                     />
                                     {inviteForm.errors.email && (
-                                        <p className="mt-1 text-xs text-destructive">{inviteForm.errors.email}</p>
+                                        <p className="mt-1 text-xs text-destructive">
+                                            {inviteForm.errors.email}
+                                        </p>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-medium text-muted-foreground">Role</label>
+                                    <label className="block text-xs font-medium text-muted-foreground">
+                                        Role
+                                    </label>
                                     <select
                                         value={inviteForm.data.role}
                                         onChange={(e) =>
-                                            inviteForm.setData('role', e.target.value as 'co_owner' | 'member')
+                                            inviteForm.setData(
+                                                'role',
+                                                e.target.value as
+                                                    | 'co_owner'
+                                                    | 'member',
+                                            )
                                         }
                                         className="mt-1.5 h-10 w-full rounded-lg border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                     >
-                                        <option value="member">Member (can record transactions & view team stats)</option>
-                                        <option value="co_owner">Co-owner (can manage members & settings)</option>
+                                        <option value="member">
+                                            Member (can record transactions &
+                                            view team stats)
+                                        </option>
+                                        <option value="co_owner">
+                                            Co-owner (can manage members &
+                                            settings)
+                                        </option>
                                     </select>
                                 </div>
 
@@ -363,7 +435,12 @@ export default function OrganizationMembersIndex({
                                         type="text"
                                         maxLength={60}
                                         value={inviteForm.data.label}
-                                        onChange={(e) => inviteForm.setData('label', e.target.value)}
+                                        onChange={(e) =>
+                                            inviteForm.setData(
+                                                'label',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="e.g. Finance Lead, Marketing, Operations..."
                                         className="mt-1.5 h-10 w-full rounded-lg border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                     />
@@ -396,7 +473,9 @@ export default function OrganizationMembersIndex({
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
                         <div className="w-full max-w-md rounded-2xl border bg-card p-6 shadow-xl">
                             <div className="flex items-center justify-between">
-                                <h3 className="text-lg font-semibold">Edit Member: @{editingMember.username}</h3>
+                                <h3 className="text-lg font-semibold">
+                                    Edit Member: @{editingMember.username}
+                                </h3>
                                 <button
                                     type="button"
                                     onClick={() => setEditingMember(null)}
@@ -406,18 +485,30 @@ export default function OrganizationMembersIndex({
                                 </button>
                             </div>
 
-                            <form onSubmit={submitEdit} className="mt-4 space-y-4">
+                            <form
+                                onSubmit={submitEdit}
+                                className="mt-4 space-y-4"
+                            >
                                 <div>
-                                    <label className="block text-xs font-medium text-muted-foreground">Role</label>
+                                    <label className="block text-xs font-medium text-muted-foreground">
+                                        Role
+                                    </label>
                                     <select
                                         value={editForm.data.role}
                                         onChange={(e) =>
-                                            editForm.setData('role', e.target.value as 'co_owner' | 'member')
+                                            editForm.setData(
+                                                'role',
+                                                e.target.value as
+                                                    | 'co_owner'
+                                                    | 'member',
+                                            )
                                         }
                                         className="mt-1.5 h-10 w-full rounded-lg border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                     >
                                         <option value="member">Member</option>
-                                        <option value="co_owner">Co-owner</option>
+                                        <option value="co_owner">
+                                            Co-owner
+                                        </option>
                                     </select>
                                 </div>
 
@@ -429,7 +520,12 @@ export default function OrganizationMembersIndex({
                                         type="text"
                                         maxLength={60}
                                         value={editForm.data.label}
-                                        onChange={(e) => editForm.setData('label', e.target.value)}
+                                        onChange={(e) =>
+                                            editForm.setData(
+                                                'label',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="e.g. Finance Lead, Marketing..."
                                         className="mt-1.5 h-10 w-full rounded-lg border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                     />

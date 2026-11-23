@@ -96,7 +96,7 @@ class OrganizationController extends Controller
             'latestTransactions' => $organization->transactions()
                 ->with(['category', 'createdBy:id,name,username,email'])
                 ->orderByDesc('date')->orderByDesc('id')
-                ->limit(6)->get(),
+                ->limit(5)->get(),
             'pendingRequestsCount' => $isManager
                 ? $organization->joinRequests()->where('status', 'pending')->count()
                 : 0,

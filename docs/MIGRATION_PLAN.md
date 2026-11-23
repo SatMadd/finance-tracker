@@ -165,17 +165,17 @@ Use the current component and token conventions. Keep styling/layout as-is; add 
 
 ## 6. Existing-data risks
 
-| Risk | Handling |
-|---|---|
-| Users with duplicate/short/non-ASCII display names may produce colliding or invalid usernames | Deterministic ASCII slug plus ID fallback and collision suffix; validate all rows and index before constraint creation. `name` remains unchanged. |
-| SQLite's ordinary unique index treats NULL owners as distinct | Use the planned expression index with `COALESCE(user_id, 0)` so shared defaults are unique by type/name too. Verify SQLite expression-index support on the installed runtime. |
-| Existing transactions may point to personal categories; all data is classified expense | Keep category and transaction IDs/FKs unchanged; backfill both to expense before activating transaction type validation. |
-| Income category rows must not be removed on rollback if referenced | The category migration's down path refuses unsafe rollback; resolve references manually before rollback. |
-| Income transactions must not be demoted on rollback | The transaction migration's down path refuses rollback while income rows exist. |
-| Dropping `learning_topics` removes its live rows | The requested backup retains the table and data. The migration's rollback recreates an empty table, not the rows. Restore from the backup only if topic data is needed. |
-| App timezone change can change which transactions count as “today” or in the current month | Stored transaction date fields are unchanged; verify totals around midnight/month boundaries under Asia/Jakarta. |
-| Backup may be stale if the app writes new data after backup | Before migration, close writers or take a fresh SQLite online backup and compare source/backup integrity and row counts immediately before applying. |
-| `.env` is local and not generally shared via source control | Also update `.env.example`; each environment must set `APP_NAME`/`APP_TIMEZONE` or inherit the documented defaults. |
+| Risk                                                                                          | Handling                                                                                                                                                                      |
+| --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Users with duplicate/short/non-ASCII display names may produce colliding or invalid usernames | Deterministic ASCII slug plus ID fallback and collision suffix; validate all rows and index before constraint creation. `name` remains unchanged.                             |
+| SQLite's ordinary unique index treats NULL owners as distinct                                 | Use the planned expression index with `COALESCE(user_id, 0)` so shared defaults are unique by type/name too. Verify SQLite expression-index support on the installed runtime. |
+| Existing transactions may point to personal categories; all data is classified expense        | Keep category and transaction IDs/FKs unchanged; backfill both to expense before activating transaction type validation.                                                      |
+| Income category rows must not be removed on rollback if referenced                            | The category migration's down path refuses unsafe rollback; resolve references manually before rollback.                                                                      |
+| Income transactions must not be demoted on rollback                                           | The transaction migration's down path refuses rollback while income rows exist.                                                                                               |
+| Dropping `learning_topics` removes its live rows                                              | The requested backup retains the table and data. The migration's rollback recreates an empty table, not the rows. Restore from the backup only if topic data is needed.       |
+| App timezone change can change which transactions count as “today” or in the current month    | Stored transaction date fields are unchanged; verify totals around midnight/month boundaries under Asia/Jakarta.                                                              |
+| Backup may be stale if the app writes new data after backup                                   | Before migration, close writers or take a fresh SQLite online backup and compare source/backup integrity and row counts immediately before applying.                          |
+| `.env` is local and not generally shared via source control                                   | Also update `.env.example`; each environment must set `APP_NAME`/`APP_TIMEZONE` or inherit the documented defaults.                                                           |
 
 ## 7. Data-preservation verification plan
 
@@ -193,4 +193,3 @@ Run only after implementation approval. Do not run these migrations as part of t
 ## 8. Current baseline to capture again before migrations
 
 The audit recorded 13 tables in the current SQLite DB, including `users`, `categories`, `transactions`, and `learning_topics`. The task-time backup is 356,352 bytes. A read-only verification at plan creation found matching counts between source and backup: 2 users, 7 categories, 1 transaction, and 12 learning topics; transaction sum 20,000; integrity check `ok` for both. Re-capture those counts immediately before applying migrations because the database may change after this plan.
-

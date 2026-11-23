@@ -4,7 +4,6 @@ import {
     Building2,
     ChartNoAxesCombined,
     FolderOpen,
-    KeyRound,
     LayoutDashboard,
     Plus,
     ReceiptText,
@@ -31,7 +30,10 @@ import { index as categoriesIndex } from '@/routes/categories';
 import { edit as financeSettings } from '@/routes/finance-settings';
 import { index as organizationsIndex } from '@/routes/organizations';
 import { index as statisticsIndex } from '@/routes/statistics';
-import { create as createTransaction, index as transactionsIndex } from '@/routes/transactions';
+import {
+    create as createTransaction,
+    index as transactionsIndex,
+} from '@/routes/transactions';
 import type { NavItem } from '@/types';
 
 const personalNavItems: NavItem[] = [
@@ -74,7 +76,8 @@ type SharedOrg = { id: number; name: string; slug: string };
 export function AppSidebar() {
     const { isCurrentUrl } = useCurrentUrl();
     const page = usePage();
-    const organizations = (page.props.organizations as SharedOrg[] | undefined) || [];
+    const organizations =
+        (page.props.organizations as SharedOrg[] | undefined) || [];
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -133,7 +136,9 @@ export function AppSidebar() {
                                     >
                                         <Link href={orgUrl} prefetch>
                                             <Briefcase />
-                                            <span className="truncate">{org.name}</span>
+                                            <span className="truncate">
+                                                {org.name}
+                                            </span>
                                         </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>

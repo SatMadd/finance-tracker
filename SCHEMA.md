@@ -28,13 +28,13 @@ php artisan db:table users     # columns of one table
 
 ### 1.2 Ways to look inside (pick one)
 
-| Method | How | Good for |
-|--------|-----|----------|
-| **Tinker** (no extra install) | `php artisan tinker` then `User::all();`, `Transaction::latest()->take(5)->get();`, `DB::table('transactions')->count();` | Quick checks |
-| **DB Browser for SQLite** (free GUI) | Install, *Open Database* → `database/database.sqlite` | Browsing and editing rows visually |
-| **VS Code extension** (SQLite Viewer / SQLite) | Right-click `database.sqlite` → open | Staying in the editor |
-| **TablePlus / DBeaver / DataGrip** | New connection → SQLite → pick the file (or MySQL/Postgres creds from `.env`) | A nicer long-term tool |
-| **`php artisan db`** | Opens the DB's CLI (needs the `sqlite3` binary installed) | Raw SQL |
+| Method                                         | How                                                                                                                       | Good for                           |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| **Tinker** (no extra install)                  | `php artisan tinker` then `User::all();`, `Transaction::latest()->take(5)->get();`, `DB::table('transactions')->count();` | Quick checks                       |
+| **DB Browser for SQLite** (free GUI)           | Install, _Open Database_ → `database/database.sqlite`                                                                     | Browsing and editing rows visually |
+| **VS Code extension** (SQLite Viewer / SQLite) | Right-click `database.sqlite` → open                                                                                      | Staying in the editor              |
+| **TablePlus / DBeaver / DataGrip**             | New connection → SQLite → pick the file (or MySQL/Postgres creds from `.env`)                                             | A nicer long-term tool             |
+| **`php artisan db`**                           | Opens the DB's CLI (needs the `sqlite3` binary installed)                                                                 | Raw SQL                            |
 
 Close the GUI before running migrations, since SQLite locks the file while it is open for writing.
 
@@ -108,48 +108,52 @@ erDiagram
 ## 3. Tables
 
 ### 3.1 `users`
-| Column | Type | Notes |
-|--------|------|-------|
-| id | bigint PK | |
-| username | string(30), **unique** | no `@`; store as typed, compare case-insensitively (or store lowercase in `username_normalized`) |
-| email | string, **unique** | store lowercase |
-| email_verified_at | timestamp, null | null = unverified |
-| password | string | hashed |
-| currency | string(3), default `IDR` | display only |
-| date_format | string, default `d/m/Y` | PHP date format |
-| timezone | string, default `Asia/Jakarta` | used for "today" |
-| remember_token | string(100), null | |
-| created_at / updated_at | timestamps | |
+
+| Column                  | Type                           | Notes                                                                                            |
+| ----------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------ |
+| id                      | bigint PK                      |                                                                                                  |
+| username                | string(30), **unique**         | no `@`; store as typed, compare case-insensitively (or store lowercase in `username_normalized`) |
+| email                   | string, **unique**             | store lowercase                                                                                  |
+| email_verified_at       | timestamp, null                | null = unverified                                                                                |
+| password                | string                         | hashed                                                                                           |
+| currency                | string(3), default `IDR`       | display only                                                                                     |
+| date_format             | string, default `d/m/Y`        | PHP date format                                                                                  |
+| timezone                | string, default `Asia/Jakarta` | used for "today"                                                                                 |
+| remember_token          | string(100), null              |                                                                                                  |
+| created_at / updated_at | timestamps                     |                                                                                                  |
 
 Replace the default `name` column with `username` (or keep `name` as display name and add `username`).
 
 ### 3.2 `categories`
-| Column | Type | Notes |
-|--------|------|-------|
-| id | bigint PK | |
-| user_id | FK → users, `cascadeOnDelete` | |
-| name | string(40) | |
-| type | enum(`expense`,`income`) | |
-| color | string(7) | hex, e.g. orange accent used by Food & Dining |
-| is_default | boolean, default false | seeded ones; "Other" is protected |
-| timestamps | | |
+
+| Column     | Type                          | Notes                                         |
+| ---------- | ----------------------------- | --------------------------------------------- |
+| id         | bigint PK                     |                                               |
+| user_id    | FK → users, `cascadeOnDelete` |                                               |
+| name       | string(40)                    |                                               |
+| type       | enum(`expense`,`income`)      |                                               |
+| color      | string(7)                     | hex, e.g. orange accent used by Food & Dining |
+| is_default | boolean, default false        | seeded ones; "Other" is protected             |
+| timestamps |                               |                                               |
 
 Constraints: **unique (user_id, type, name)**. Index on `user_id`.
 
 ### 3.3 `transactions`
-| Column | Type | Notes |
-|--------|------|-------|
-| id | bigint PK | |
-| user_id | FK → users, `cascadeOnDelete` | |
-| category_id | FK → categories, **`restrictOnDelete`** | block deleting a category in use |
-| type | enum(`expense`,`income`) | must equal the category's type (validate in code) |
-| amount | **unsigned bigint** | whole IDR; never float/decimal-as-float |
-| transaction_date | **date** | no time part, avoids timezone drift |
-| note | text, null | |
-| created_at / updated_at | timestamps | |
-| deleted_at | timestamp, null | soft delete (optional) |
+
+| Column                  | Type                                    | Notes                                             |
+| ----------------------- | --------------------------------------- | ------------------------------------------------- |
+| id                      | bigint PK                               |                                                   |
+| user_id                 | FK → users, `cascadeOnDelete`           |                                                   |
+| category_id             | FK → categories, **`restrictOnDelete`** | block deleting a category in use                  |
+| type                    | enum(`expense`,`income`)                | must equal the category's type (validate in code) |
+| amount                  | **unsigned bigint**                     | whole IDR; never float/decimal-as-float           |
+| transaction_date        | **date**                                | no time part, avoids timezone drift               |
+| note                    | text, null                              |                                                   |
+| created_at / updated_at | timestamps                              |                                                   |
+| deleted_at              | timestamp, null                         | soft delete (optional)                            |
 
 Indexes:
+
 - `(user_id, transaction_date)` — dashboard, history, statistics
 - `(user_id, category_id)` — category totals
 - `(user_id, type, transaction_date)` — income vs expense reports

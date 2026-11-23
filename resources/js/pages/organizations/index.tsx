@@ -1,9 +1,22 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import { Building2, Check, KeyRound, Plus, Shield, Users, X } from 'lucide-react';
+import {
+    Building2,
+    Check,
+    KeyRound,
+    Plus,
+    Shield,
+    Users,
+    X,
+} from 'lucide-react';
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { dashboard } from '@/routes';
-import { index as organizationsIndex, join as joinOrganization, show as organizationShow, store as storeOrganization } from '@/routes/organizations';
+import {
+    index as organizationsIndex,
+    join as joinOrganization,
+    show as organizationShow,
+    store as storeOrganization,
+} from '@/routes/organizations';
 
 export type OrganizationItem = {
     id: number;
@@ -62,10 +75,15 @@ export default function OrganizationsIndex({
                 {/* Header & Taskbar */}
                 <section className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div>
-                        <p className="text-sm font-medium text-muted-foreground">Collaborative Finance</p>
-                        <h1 className="mt-1 text-3xl font-semibold tracking-tight">Organizations</h1>
+                        <p className="text-sm font-medium text-muted-foreground">
+                            Collaborative Finance
+                        </p>
+                        <h1 className="mt-1 text-3xl font-semibold tracking-tight">
+                            Organizations
+                        </h1>
                         <p className="mt-1 text-sm text-muted-foreground">
-                            Manage and collaborate on multi-member company finances.
+                            Manage and collaborate on multi-member company
+                            finances.
                         </p>
                     </div>
 
@@ -102,9 +120,13 @@ export default function OrganizationsIndex({
                         <div className="flex size-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                             <Building2 size={28} />
                         </div>
-                        <h2 className="mt-4 text-xl font-semibold">No organization yet</h2>
+                        <h2 className="mt-4 text-xl font-semibold">
+                            No organization yet
+                        </h2>
                         <p className="mt-2 max-w-md text-sm text-muted-foreground">
-                            You haven't joined or created any organization yet. Start your own company finance tracker or apply with an organization join code.
+                            You haven't joined or created any organization yet.
+                            Start your own company finance tracker or apply with
+                            an organization join code.
                         </p>
                         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                             <button
@@ -154,13 +176,17 @@ export default function OrganizationsIndex({
                                             </span>
                                         </div>
 
-                                        <h3 className="mt-4 text-lg font-semibold tracking-tight">{org.name}</h3>
+                                        <h3 className="mt-4 text-lg font-semibold tracking-tight">
+                                            {org.name}
+                                        </h3>
                                         {org.description ? (
                                             <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
                                                 {org.description}
                                             </p>
                                         ) : (
-                                            <p className="mt-1 text-xs italic text-muted-foreground">No description</p>
+                                            <p className="mt-1 text-xs text-muted-foreground italic">
+                                                No description
+                                            </p>
                                         )}
 
                                         {org.label && (
@@ -176,7 +202,10 @@ export default function OrganizationsIndex({
                                         <div className="mb-3 flex items-center justify-between text-xs text-muted-foreground">
                                             <span className="flex items-center gap-1">
                                                 <Users size={14} />
-                                                {org.members_count} {org.members_count === 1 ? 'member' : 'members'}
+                                                {org.members_count}{' '}
+                                                {org.members_count === 1
+                                                    ? 'member'
+                                                    : 'members'}
                                             </span>
                                         </div>
                                         <Link
@@ -197,7 +226,9 @@ export default function OrganizationsIndex({
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
                         <div className="w-full max-w-md rounded-2xl border bg-card p-6 shadow-xl">
                             <div className="flex items-center justify-between">
-                                <h3 className="text-lg font-semibold">Create Organization</h3>
+                                <h3 className="text-lg font-semibold">
+                                    Create Organization
+                                </h3>
                                 <button
                                     type="button"
                                     onClick={() => setCreateOpen(false)}
@@ -207,10 +238,14 @@ export default function OrganizationsIndex({
                                 </button>
                             </div>
                             <p className="mt-1 text-xs text-muted-foreground">
-                                Create an organization for your company or team. You will be set as the Owner.
+                                Create an organization for your company or team.
+                                You will be set as the Owner.
                             </p>
 
-                            <form onSubmit={submitCreate} className="mt-4 space-y-4">
+                            <form
+                                onSubmit={submitCreate}
+                                className="mt-4 space-y-4"
+                            >
                                 <div>
                                     <label className="block text-xs font-medium text-muted-foreground">
                                         Organization Name *
@@ -220,12 +255,19 @@ export default function OrganizationsIndex({
                                         required
                                         maxLength={100}
                                         value={createForm.data.name}
-                                        onChange={(e) => createForm.setData('name', e.target.value)}
+                                        onChange={(e) =>
+                                            createForm.setData(
+                                                'name',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="e.g. Acme Corp Finance"
                                         className="mt-1.5 h-10 w-full rounded-lg border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                     />
                                     {createForm.errors.name && (
-                                        <p className="mt-1 text-xs text-destructive">{createForm.errors.name}</p>
+                                        <p className="mt-1 text-xs text-destructive">
+                                            {createForm.errors.name}
+                                        </p>
                                     )}
                                 </div>
 
@@ -237,12 +279,19 @@ export default function OrganizationsIndex({
                                         rows={3}
                                         maxLength={500}
                                         value={createForm.data.description}
-                                        onChange={(e) => createForm.setData('description', e.target.value)}
+                                        onChange={(e) =>
+                                            createForm.setData(
+                                                'description',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="Short description of this organization..."
                                         className="mt-1.5 w-full rounded-lg border bg-background p-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                     />
                                     {createForm.errors.description && (
-                                        <p className="mt-1 text-xs text-destructive">{createForm.errors.description}</p>
+                                        <p className="mt-1 text-xs text-destructive">
+                                            {createForm.errors.description}
+                                        </p>
                                     )}
                                 </div>
 
@@ -273,7 +322,9 @@ export default function OrganizationsIndex({
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
                         <div className="w-full max-w-md rounded-2xl border bg-card p-6 shadow-xl">
                             <div className="flex items-center justify-between">
-                                <h3 className="text-lg font-semibold">Join Organization</h3>
+                                <h3 className="text-lg font-semibold">
+                                    Join Organization
+                                </h3>
                                 <button
                                     type="button"
                                     onClick={() => setJoinOpen(false)}
@@ -283,10 +334,14 @@ export default function OrganizationsIndex({
                                 </button>
                             </div>
                             <p className="mt-1 text-xs text-muted-foreground">
-                                Enter the 8-character join code provided by your organization owner or co-owner.
+                                Enter the 8-character join code provided by your
+                                organization owner or co-owner.
                             </p>
 
-                            <form onSubmit={submitJoin} className="mt-4 space-y-4">
+                            <form
+                                onSubmit={submitJoin}
+                                className="mt-4 space-y-4"
+                            >
                                 <div>
                                     <label className="block text-xs font-medium text-muted-foreground">
                                         Organization Code *
@@ -296,13 +351,22 @@ export default function OrganizationsIndex({
                                         required
                                         maxLength={8}
                                         value={joinForm.data.code}
-                                        onChange={(e) => joinForm.setData('code', e.target.value)}
+                                        onChange={(e) =>
+                                            joinForm.setData(
+                                                'code',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="e.g. FIN-X7K2"
-                                        className="mt-1.5 h-10 w-full rounded-lg border bg-background px-3 font-mono text-sm uppercase tracking-wider outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                        className="mt-1.5 h-10 w-full rounded-lg border bg-background px-3 font-mono text-sm tracking-wider uppercase outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                     />
-                                    <p className="mt-1 text-[11px] text-muted-foreground">Codes are case-sensitive.</p>
+                                    <p className="mt-1 text-[11px] text-muted-foreground">
+                                        Codes are case-sensitive.
+                                    </p>
                                     {joinForm.errors.code && (
-                                        <p className="mt-1 text-xs text-destructive">{joinForm.errors.code}</p>
+                                        <p className="mt-1 text-xs text-destructive">
+                                            {joinForm.errors.code}
+                                        </p>
                                     )}
                                 </div>
 
@@ -314,12 +378,19 @@ export default function OrganizationsIndex({
                                         rows={3}
                                         maxLength={300}
                                         value={joinForm.data.message}
-                                        onChange={(e) => joinForm.setData('message', e.target.value)}
+                                        onChange={(e) =>
+                                            joinForm.setData(
+                                                'message',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="Hi, I am joining the marketing team..."
                                         className="mt-1.5 w-full rounded-lg border bg-background p-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                     />
                                     {joinForm.errors.message && (
-                                        <p className="mt-1 text-xs text-destructive">{joinForm.errors.message}</p>
+                                        <p className="mt-1 text-xs text-destructive">
+                                            {joinForm.errors.message}
+                                        </p>
                                     )}
                                 </div>
 

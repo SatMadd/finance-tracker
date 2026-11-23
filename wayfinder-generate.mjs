@@ -21,7 +21,9 @@ if (phpAvailable) {
         },
     });
 } else {
-    process.stdout.write('PHP is not available in current environment. Using existing Wayfinder routes.\n');
+    process.stdout.write(
+        'PHP is not available in current environment. Using existing Wayfinder routes.\n',
+    );
 }
 
 const helperPath = resolve('resources/js/wayfinder/index.ts');
@@ -33,7 +35,12 @@ if (existsSync(helperPath)) {
         'type Method = "get" | "post" | "put" | "delete" | "patch" | "head" | "options" | "query";';
 
     if (source.includes(generatedMethodType)) {
-        writeFileSync(helperPath, source.replace(generatedMethodType, compatibleMethodType));
-        process.stdout.write('Wayfinder helper patched for generated query route types.\n');
+        writeFileSync(
+            helperPath,
+            source.replace(generatedMethodType, compatibleMethodType),
+        );
+        process.stdout.write(
+            'Wayfinder helper patched for generated query route types.\n',
+        );
     }
 }

@@ -18,15 +18,10 @@ export default function VerifyEmail({ status }: { status?: string }) {
 
             <div className="space-y-6 text-center">
                 <Button asChild variant="secondary">
-                    <Link href={dashboard()}>
-                        Go to Dashboard
-                    </Link>
+                    <Link href={dashboard()}>Go to Dashboard</Link>
                 </Button>
 
-                <TextLink
-                    href={logout()}
-                    className="mx-auto block text-sm"
-                >
+                <TextLink href={logout()} className="mx-auto block text-sm">
                     Log out
                 </TextLink>
             </div>
@@ -36,6 +31,5 @@ export default function VerifyEmail({ status }: { status?: string }) {
 
 VerifyEmail.layout = {
     title: 'Email verification',
-    description:
-        'Your email is verified. You can access your dashboard now.',
+    description: 'Your email is verified. You can access your dashboard now.',
 };

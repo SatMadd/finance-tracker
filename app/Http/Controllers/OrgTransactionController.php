@@ -26,7 +26,6 @@ class OrgTransactionController extends Controller
 
         $query = $organization->transactions()
             ->with(['category', 'createdBy:id,name,username,email'])
-            ->when(! $isManager, fn ($q) => $q->where('created_by', $request->user()->id))
             ->when($filters['search'] ?? null, fn ($q, $v) => $q->where('description', 'like', "%{$v}%"))
             ->when($filters['from'] ?? null, fn ($q, $v) => $q->whereDate('date', '>=', $v))
             ->when($filters['to'] ?? null, fn ($q, $v) => $q->whereDate('date', '<=', $v))
