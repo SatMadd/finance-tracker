@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('regenerate-code', [OrganizationController::class, 'regenerateCode'])->name('regenerate-code');
         Route::post('transfer-ownership', [OrganizationController::class, 'transferOwnership'])->name('transfer-ownership');
         Route::post('leave', [OrganizationController::class, 'leave'])->name('leave');
+        Route::get('export', [OrganizationController::class, 'export'])->name('export');
 
         // Members & Requests & Invites
         Route::get('members', [OrganizationMemberController::class, 'index'])->name('members.index');
@@ -46,6 +47,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('transactions', [OrgTransactionController::class, 'index'])->name('transactions.index');
         Route::get('transactions/create', [OrgTransactionController::class, 'create'])->name('transactions.create');
         Route::post('transactions', [OrgTransactionController::class, 'store'])->name('transactions.store');
+        Route::get('transactions/{transaction}/edit', [OrgTransactionController::class, 'edit'])->name('transactions.edit');
+        Route::put('transactions/{transaction}', [OrgTransactionController::class, 'update'])->name('transactions.update');
         Route::delete('transactions/{transaction}', [OrgTransactionController::class, 'destroy'])->name('transactions.destroy');
     });
 });

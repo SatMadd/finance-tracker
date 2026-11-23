@@ -283,8 +283,193 @@ store.post = (args: { organization: string | number | { slug: string | number } 
     
     store.form = storeForm
 /**
-* @see \App\Http\Controllers\OrgTransactionController::destroy
+* @see \App\Http\Controllers\OrgTransactionController::edit
  * @see app/Http/Controllers/OrgTransactionController.php:98
+ * @route '/organizations/{organization}/transactions/{transaction}/edit'
+ */
+export const edit = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: edit.url(args, options),
+    method: 'get',
+})
+
+edit.definition = {
+    methods: ["get","head"],
+    url: '/organizations/{organization}/transactions/{transaction}/edit',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\OrgTransactionController::edit
+ * @see app/Http/Controllers/OrgTransactionController.php:98
+ * @route '/organizations/{organization}/transactions/{transaction}/edit'
+ */
+edit.url = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions) => {
+    if (Array.isArray(args)) {
+        args = {
+                    organization: args[0],
+                    transaction: args[1],
+                }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+                        organization: typeof args.organization === 'object'
+                ? args.organization.slug
+                : args.organization,
+                                transaction: typeof args.transaction === 'object'
+                ? args.transaction.id
+                : args.transaction,
+                }
+
+    return edit.definition.url
+            .replace('{organization}', parsedArgs.organization.toString())
+            .replace('{transaction}', parsedArgs.transaction.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\OrgTransactionController::edit
+ * @see app/Http/Controllers/OrgTransactionController.php:98
+ * @route '/organizations/{organization}/transactions/{transaction}/edit'
+ */
+edit.get = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: edit.url(args, options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\OrgTransactionController::edit
+ * @see app/Http/Controllers/OrgTransactionController.php:98
+ * @route '/organizations/{organization}/transactions/{transaction}/edit'
+ */
+edit.head = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: edit.url(args, options),
+    method: 'head',
+})
+
+    /**
+* @see \App\Http\Controllers\OrgTransactionController::edit
+ * @see app/Http/Controllers/OrgTransactionController.php:98
+ * @route '/organizations/{organization}/transactions/{transaction}/edit'
+ */
+    const editForm = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: edit.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\OrgTransactionController::edit
+ * @see app/Http/Controllers/OrgTransactionController.php:98
+ * @route '/organizations/{organization}/transactions/{transaction}/edit'
+ */
+        editForm.get = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: edit.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\OrgTransactionController::edit
+ * @see app/Http/Controllers/OrgTransactionController.php:98
+ * @route '/organizations/{organization}/transactions/{transaction}/edit'
+ */
+        editForm.head = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: edit.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    edit.form = editForm
+/**
+* @see \App\Http\Controllers\OrgTransactionController::update
+ * @see app/Http/Controllers/OrgTransactionController.php:136
+ * @route '/organizations/{organization}/transactions/{transaction}'
+ */
+export const update = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: update.url(args, options),
+    method: 'put',
+})
+
+update.definition = {
+    methods: ["put"],
+    url: '/organizations/{organization}/transactions/{transaction}',
+} satisfies RouteDefinition<["put"]>
+
+/**
+* @see \App\Http\Controllers\OrgTransactionController::update
+ * @see app/Http/Controllers/OrgTransactionController.php:136
+ * @route '/organizations/{organization}/transactions/{transaction}'
+ */
+update.url = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions) => {
+    if (Array.isArray(args)) {
+        args = {
+                    organization: args[0],
+                    transaction: args[1],
+                }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+                        organization: typeof args.organization === 'object'
+                ? args.organization.slug
+                : args.organization,
+                                transaction: typeof args.transaction === 'object'
+                ? args.transaction.id
+                : args.transaction,
+                }
+
+    return update.definition.url
+            .replace('{organization}', parsedArgs.organization.toString())
+            .replace('{transaction}', parsedArgs.transaction.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\OrgTransactionController::update
+ * @see app/Http/Controllers/OrgTransactionController.php:136
+ * @route '/organizations/{organization}/transactions/{transaction}'
+ */
+update.put = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: update.url(args, options),
+    method: 'put',
+})
+
+    /**
+* @see \App\Http\Controllers\OrgTransactionController::update
+ * @see app/Http/Controllers/OrgTransactionController.php:136
+ * @route '/organizations/{organization}/transactions/{transaction}'
+ */
+    const updateForm = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: update.url(args, {
+                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                        _method: 'PUT',
+                        ...(options?.query ?? options?.mergeQuery ?? {}),
+                    }
+                }),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\OrgTransactionController::update
+ * @see app/Http/Controllers/OrgTransactionController.php:136
+ * @route '/organizations/{organization}/transactions/{transaction}'
+ */
+        updateForm.put = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: update.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'PUT',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+    
+    update.form = updateForm
+/**
+* @see \App\Http\Controllers\OrgTransactionController::destroy
+ * @see app/Http/Controllers/OrgTransactionController.php:169
  * @route '/organizations/{organization}/transactions/{transaction}'
  */
 export const destroy = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -299,7 +484,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\OrgTransactionController::destroy
- * @see app/Http/Controllers/OrgTransactionController.php:98
+ * @see app/Http/Controllers/OrgTransactionController.php:169
  * @route '/organizations/{organization}/transactions/{transaction}'
  */
 destroy.url = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions) => {
@@ -329,7 +514,7 @@ destroy.url = (args: { organization: string | number | { slug: string | number }
 
 /**
 * @see \App\Http\Controllers\OrgTransactionController::destroy
- * @see app/Http/Controllers/OrgTransactionController.php:98
+ * @see app/Http/Controllers/OrgTransactionController.php:169
  * @route '/organizations/{organization}/transactions/{transaction}'
  */
 destroy.delete = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -339,7 +524,7 @@ destroy.delete = (args: { organization: string | number | { slug: string | numbe
 
     /**
 * @see \App\Http\Controllers\OrgTransactionController::destroy
- * @see app/Http/Controllers/OrgTransactionController.php:98
+ * @see app/Http/Controllers/OrgTransactionController.php:169
  * @route '/organizations/{organization}/transactions/{transaction}'
  */
     const destroyForm = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -354,7 +539,7 @@ destroy.delete = (args: { organization: string | number | { slug: string | numbe
 
             /**
 * @see \App\Http\Controllers\OrgTransactionController::destroy
- * @see app/Http/Controllers/OrgTransactionController.php:98
+ * @see app/Http/Controllers/OrgTransactionController.php:169
  * @route '/organizations/{organization}/transactions/{transaction}'
  */
         destroyForm.delete = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -372,6 +557,8 @@ const transactions = {
     index: Object.assign(index, index),
 create: Object.assign(create, create),
 store: Object.assign(store, store),
+edit: Object.assign(edit, edit),
+update: Object.assign(update, update),
 destroy: Object.assign(destroy, destroy),
 }
 

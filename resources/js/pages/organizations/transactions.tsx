@@ -3,6 +3,7 @@ import {
     CalendarDays,
     ChevronLeft,
     ChevronRight,
+    Pencil,
     Plus,
     Search,
     SlidersHorizontal,
@@ -448,7 +449,7 @@ export default function OrgTransactionsIndex({
                                 )}
                             </div>
 
-                            <div className="mt-5 flex justify-end">
+                            <div className="mt-5 flex items-center justify-end gap-2">
                                 <button
                                     type="button"
                                     onClick={() => setSelectedTx(null)}
@@ -456,6 +457,15 @@ export default function OrgTransactionsIndex({
                                 >
                                     Close
                                 </button>
+                                {isManager && (
+                                    <Link
+                                        href={`/organizations/${organization.slug}/transactions/${selectedTx.id}/edit`}
+                                        className="inline-flex h-9 items-center gap-1.5 rounded-xl bg-primary px-4 text-xs font-medium text-primary-foreground transition hover:bg-primary/90"
+                                    >
+                                        <Pencil size={13} />
+                                        Edit Transaction
+                                    </Link>
+                                )}
                             </div>
                         </div>
                     </div>

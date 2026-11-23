@@ -29,6 +29,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
+        "APP_TIMEZONE": "Asia/Jakarta",
         "APP_URL": "https://finance-tracker-eta-brown.vercel.app",
         "ASSET_URL": "https://finance-tracker-eta-brown.vercel.app",
         "DB_CONNECTION": "pgsql",

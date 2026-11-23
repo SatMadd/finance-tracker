@@ -14,8 +14,9 @@ class DashboardController extends Controller
         $user = $request->user();
         $today = now()->toDateString();
         $monthStart = now()->startOfMonth()->toDateString();
+        $monthEnd = now()->endOfMonth()->toDateString();
 
-        $monthQuery = fn () => $user->transactions()->whereBetween('date', [$monthStart, $today]);
+        $monthQuery = fn () => $user->transactions()->whereBetween('date', [$monthStart, $monthEnd]);
 
         return Inertia::render('dashboard', [
             'currency' => $user->currency,
@@ -34,7 +35,7 @@ class DashboardController extends Controller
             'categorySpending' => Transaction::query()
                 ->selectRaw('category_id, SUM(amount) as total')
                 ->where('user_id', $user->id)
-                ->whereBetween('date', [$monthStart, $today])
+                ->whereBetween('date', [$monthStart, $monthEnd])
                 ->with('category:id,name,color')
                 ->groupBy('category_id')
                 ->orderByDesc('total')

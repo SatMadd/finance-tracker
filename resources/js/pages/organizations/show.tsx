@@ -4,6 +4,8 @@ import {
     CalendarDays,
     Check,
     Copy,
+    Download,
+    FileSpreadsheet,
     LogOut,
     Plus,
     ReceiptText,
@@ -80,6 +82,43 @@ export default function OrganizationShow({
 }) {
     const [copied, setCopied] = useState(false);
     const [settingsOpen, setSettingsOpen] = useState(false);
+    const [exportOpen, setExportOpen] = useState(false);
+    const [exportFilters, setExportFilters] = useState({
+        preset: 'month' as 'all' | 'month' | 'custom',
+        from: '',
+        to: '',
+        type: 'all' as 'all' | 'expense' | 'income',
+    });
+
+    function handleDownload() {
+        const params = new URLSearchParams();
+        if (exportFilters.preset === 'custom') {
+            if (exportFilters.from) params.set('from', exportFilters.from);
+            if (exportFilters.to) params.set('to', exportFilters.to);
+        } else if (exportFilters.preset === 'month') {
+            const now = new Date();
+            const start = new Date(now.getFullYear(), now.getMonth(), 1)
+                .toISOString()
+                .split('T')[0];
+            const end = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+                .toISOString()
+                .split('T')[0];
+            params.set('from', start);
+            params.set('to', end);
+        }
+        if (exportFilters.type !== 'all') {
+            params.set('type', exportFilters.type);
+        }
+
+        const url = `/organizations/${organization.slug}/export${params.toString() ? `?${params.toString()}` : ''}`;
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', '');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setExportOpen(false);
+    }
 
     const editForm = useForm({
         name: organization.name,
@@ -230,32 +269,43 @@ export default function OrganizationShow({
                     </div>
                 </section>
 
-                {/* Org Navigation Bar */}
-                <nav className="flex items-center gap-2 border-b pb-3">
-                    <Link
-                        href={organizationShow(organization.slug)}
-                        className="inline-flex items-center gap-2 rounded-xl bg-primary/10 px-3.5 py-1.5 text-xs font-medium text-primary"
+                {/* Org Navigation Bar & Action Area */}
+                <nav className="flex flex-wrap items-center justify-between gap-3 border-b pb-3">
+                    <div className="flex items-center gap-2">
+                        <Link
+                            href={organizationShow(organization.slug)}
+                            className="inline-flex items-center gap-2 rounded-xl bg-primary/10 px-3.5 py-1.5 text-xs font-medium text-primary"
+                        >
+                            Dashboard
+                        </Link>
+                        <Link
+                            href={orgTransactionsIndex(organization.slug)}
+                            className="inline-flex items-center gap-2 rounded-xl px-3.5 py-1.5 text-xs font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                        >
+                            Transactions
+                        </Link>
+                        <Link
+                            href={membersIndex(organization.slug)}
+                            className="inline-flex items-center gap-2 rounded-xl px-3.5 py-1.5 text-xs font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                        >
+                            <Users size={14} />
+                            Members & Invites
+                            {pendingRequestsCount > 0 && (
+                                <span className="flex size-4 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground">
+                                    {pendingRequestsCount}
+                                </span>
+                            )}
+                        </Link>
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={() => setExportOpen(true)}
+                        className="inline-flex items-center gap-1.5 rounded-xl border border-input bg-background px-3.5 py-1.5 text-xs font-medium shadow-xs transition hover:bg-muted hover:text-foreground"
                     >
-                        Dashboard
-                    </Link>
-                    <Link
-                        href={orgTransactionsIndex(organization.slug)}
-                        className="inline-flex items-center gap-2 rounded-xl px-3.5 py-1.5 text-xs font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground"
-                    >
-                        Transactions
-                    </Link>
-                    <Link
-                        href={membersIndex(organization.slug)}
-                        className="inline-flex items-center gap-2 rounded-xl px-3.5 py-1.5 text-xs font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground"
-                    >
-                        <Users size={14} />
-                        Members & Invites
-                        {pendingRequestsCount > 0 && (
-                            <span className="flex size-4 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground">
-                                {pendingRequestsCount}
-                            </span>
-                        )}
-                    </Link>
+                        <Download size={14} className="text-emerald-500" />
+                        <span>Export</span>
+                    </button>
                 </nav>
 
                 {/* Metrics */}
@@ -598,6 +648,205 @@ export default function OrganizationShow({
                                         </button>
                                     </div>
                                 )}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Export Modal */}
+                {exportOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
+                        <div className="w-full max-w-md rounded-2xl border bg-card p-6 shadow-xl">
+                            <div className="flex items-center justify-between border-b pb-4">
+                                <div className="flex items-center gap-2.5">
+                                    <div className="flex size-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500">
+                                        <FileSpreadsheet size={18} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-base font-semibold">
+                                            Export to Excel (.xlsx)
+                                        </h3>
+                                        <p className="text-xs text-muted-foreground">
+                                            Download spreadsheet for{' '}
+                                            <strong>{organization.name}</strong>
+                                        </p>
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setExportOpen(false)}
+                                    className="rounded-lg p-1 text-muted-foreground hover:bg-muted"
+                                >
+                                    <X size={16} />
+                                </button>
+                            </div>
+
+                            <div className="mt-4 space-y-4">
+                                {/* Date Range Preset */}
+                                <div>
+                                    <label className="block text-xs font-medium text-muted-foreground">
+                                        Date Range
+                                    </label>
+                                    <div className="mt-1.5 grid grid-cols-3 gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setExportFilters((prev) => ({
+                                                    ...prev,
+                                                    preset: 'month',
+                                                }))
+                                            }
+                                            className={`rounded-xl border py-2 text-xs font-medium transition ${
+                                                exportFilters.preset === 'month'
+                                                    ? 'border-primary bg-primary/10 text-primary'
+                                                    : 'bg-background text-muted-foreground hover:bg-muted'
+                                            }`}
+                                        >
+                                            This Month
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setExportFilters((prev) => ({
+                                                    ...prev,
+                                                    preset: 'all',
+                                                }))
+                                            }
+                                            className={`rounded-xl border py-2 text-xs font-medium transition ${
+                                                exportFilters.preset === 'all'
+                                                    ? 'border-primary bg-primary/10 text-primary'
+                                                    : 'bg-background text-muted-foreground hover:bg-muted'
+                                            }`}
+                                        >
+                                            All Time
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setExportFilters((prev) => ({
+                                                    ...prev,
+                                                    preset: 'custom',
+                                                }))
+                                            }
+                                            className={`rounded-xl border py-2 text-xs font-medium transition ${
+                                                exportFilters.preset ===
+                                                'custom'
+                                                    ? 'border-primary bg-primary/10 text-primary'
+                                                    : 'bg-background text-muted-foreground hover:bg-muted'
+                                            }`}
+                                        >
+                                            Custom
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Custom Date Inputs */}
+                                {exportFilters.preset === 'custom' && (
+                                    <div className="grid grid-cols-2 gap-3 rounded-xl border bg-muted/30 p-3">
+                                        <div>
+                                            <label className="block text-[11px] font-medium text-muted-foreground">
+                                                From Date
+                                            </label>
+                                            <input
+                                                type="date"
+                                                value={exportFilters.from}
+                                                onChange={(e) =>
+                                                    setExportFilters(
+                                                        (prev) => ({
+                                                            ...prev,
+                                                            from: e.target
+                                                                .value,
+                                                        }),
+                                                    )
+                                                }
+                                                className="mt-1 h-9 w-full rounded-lg border bg-background px-2.5 text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[11px] font-medium text-muted-foreground">
+                                                To Date
+                                            </label>
+                                            <input
+                                                type="date"
+                                                value={exportFilters.to}
+                                                onChange={(e) =>
+                                                    setExportFilters(
+                                                        (prev) => ({
+                                                            ...prev,
+                                                            to: e.target.value,
+                                                        }),
+                                                    )
+                                                }
+                                                className="mt-1 h-9 w-full rounded-lg border bg-background px-2.5 text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Transaction Type Filter */}
+                                <div>
+                                    <label className="block text-xs font-medium text-muted-foreground">
+                                        Transaction Type
+                                    </label>
+                                    <select
+                                        value={exportFilters.type}
+                                        onChange={(e) =>
+                                            setExportFilters((prev) => ({
+                                                ...prev,
+                                                type: e.target.value as
+                                                    | 'all'
+                                                    | 'expense'
+                                                    | 'income',
+                                            }))
+                                        }
+                                        className="mt-1.5 h-10 w-full rounded-xl border bg-background px-3 text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                    >
+                                        <option value="all">
+                                            All Transactions (Income & Expenses)
+                                        </option>
+                                        <option value="expense">
+                                            Expenses (Outcomes) Only
+                                        </option>
+                                        <option value="income">
+                                            Income Only
+                                        </option>
+                                    </select>
+                                </div>
+
+                                {/* Format Information */}
+                                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 text-xs">
+                                    <div className="flex items-center gap-2 font-medium text-emerald-600 dark:text-emerald-400">
+                                        <FileSpreadsheet size={15} />
+                                        <span>
+                                            Microsoft Excel OpenXML (.xlsx)
+                                        </span>
+                                    </div>
+                                    <p className="mt-1 text-[11px] text-muted-foreground">
+                                        Includes date, type, category,
+                                        description, amount, payment method,
+                                        author, and notes formatted in proper
+                                        Excel columns.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="mt-6 flex items-center justify-end gap-2.5 border-t pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setExportOpen(false)}
+                                    className="h-9 rounded-xl border px-4 text-xs font-medium hover:bg-muted"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleDownload}
+                                    className="inline-flex h-9 items-center gap-1.5 rounded-xl bg-primary px-4 text-xs font-medium text-primary-foreground transition hover:bg-primary/90"
+                                >
+                                    <Download size={14} />
+                                    <span>Download .xlsx</span>
+                                </button>
                             </div>
                         </div>
                     </div>

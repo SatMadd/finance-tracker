@@ -95,6 +95,77 @@ class OrgTransactionController extends Controller
         return to_route('organizations.transactions.index', $organization->slug);
     }
 
+    public function edit(Request $request, Organization $organization, Transaction $transaction): Response|RedirectResponse
+    {
+        if (! $organization->hasMember($request->user()->id)) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'You do not have access to this organization.']);
+
+            return to_route('organizations.index');
+        }
+
+        if (! $organization->isOwnerOrCoOwner($request->user()->id)) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'Only organization owners and co-owners can edit transactions.']);
+
+            return to_route('organizations.transactions.index', $organization->slug);
+        }
+
+        abort_if($transaction->organization_id !== $organization->id, 404);
+
+        $categories = Category::query()
+            ->where(fn ($q) => $q->where(fn ($sub) => $sub->whereNull('organization_id')->whereNull('user_id'))->orWhere('organization_id', $organization->id))
+            ->orderBy('name')
+            ->get(['id', 'name', 'color', 'type']);
+
+        return Inertia::render('organizations/transaction-edit', [
+            'organization' => ['id' => $organization->id, 'name' => $organization->name, 'slug' => $organization->slug],
+            'transaction' => [
+                'id' => $transaction->id,
+                'category_id' => $transaction->category_id,
+                'type' => $transaction->type,
+                'description' => $transaction->description,
+                'amount' => (float) $transaction->amount,
+                'date' => $transaction->date->toDateString(),
+                'payment_method' => $transaction->payment_method ?? 'Cash',
+                'notes' => $transaction->notes ?? '',
+            ],
+            'categories' => $categories,
+            'currency' => $request->user()->currency,
+        ]);
+    }
+
+    public function update(Request $request, Organization $organization, Transaction $transaction): RedirectResponse
+    {
+        if (! $organization->hasMember($request->user()->id)) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'You do not have access to this organization.']);
+
+            return to_route('organizations.index');
+        }
+
+        if (! $organization->isOwnerOrCoOwner($request->user()->id)) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'Only organization owners and co-owners can edit transactions.']);
+
+            return to_route('organizations.transactions.index', $organization->slug);
+        }
+
+        abort_if($transaction->organization_id !== $organization->id, 404);
+
+        $data = $request->validate([
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
+            'type' => ['required', 'in:income,expense'],
+            'description' => ['required', 'string', 'max:255'],
+            'amount' => ['required', 'numeric', 'min:0.01'],
+            'date' => ['required', 'date'],
+            'payment_method' => ['nullable', 'string', 'max:40'],
+            'notes' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        $transaction->update($data);
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Transaction updated successfully.']);
+
+        return to_route('organizations.transactions.index', $organization->slug);
+    }
+
     public function destroy(Request $request, Organization $organization, Transaction $transaction): RedirectResponse
     {
         $this->authorize('view', $organization);

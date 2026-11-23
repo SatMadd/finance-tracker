@@ -4,7 +4,7 @@ import requests from './requests'
 import transactions from './transactions'
 /**
 * @see \App\Http\Controllers\OrganizationController::index
- * @see app/Http/Controllers/OrganizationController.php:15
+ * @see app/Http/Controllers/OrganizationController.php:17
  * @route '/organizations'
  */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -19,7 +19,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\OrganizationController::index
- * @see app/Http/Controllers/OrganizationController.php:15
+ * @see app/Http/Controllers/OrganizationController.php:17
  * @route '/organizations'
  */
 index.url = (options?: RouteQueryOptions) => {
@@ -28,7 +28,7 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\OrganizationController::index
- * @see app/Http/Controllers/OrganizationController.php:15
+ * @see app/Http/Controllers/OrganizationController.php:17
  * @route '/organizations'
  */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -37,7 +37,7 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\OrganizationController::index
- * @see app/Http/Controllers/OrganizationController.php:15
+ * @see app/Http/Controllers/OrganizationController.php:17
  * @route '/organizations'
  */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -47,7 +47,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\OrganizationController::index
- * @see app/Http/Controllers/OrganizationController.php:15
+ * @see app/Http/Controllers/OrganizationController.php:17
  * @route '/organizations'
  */
     const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -57,7 +57,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\OrganizationController::index
- * @see app/Http/Controllers/OrganizationController.php:15
+ * @see app/Http/Controllers/OrganizationController.php:17
  * @route '/organizations'
  */
         indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -66,7 +66,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\OrganizationController::index
- * @see app/Http/Controllers/OrganizationController.php:15
+ * @see app/Http/Controllers/OrganizationController.php:17
  * @route '/organizations'
  */
         indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -82,7 +82,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     index.form = indexForm
 /**
 * @see \App\Http\Controllers\OrganizationController::store
- * @see app/Http/Controllers/OrganizationController.php:43
+ * @see app/Http/Controllers/OrganizationController.php:45
  * @route '/organizations'
  */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -97,7 +97,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\OrganizationController::store
- * @see app/Http/Controllers/OrganizationController.php:43
+ * @see app/Http/Controllers/OrganizationController.php:45
  * @route '/organizations'
  */
 store.url = (options?: RouteQueryOptions) => {
@@ -106,7 +106,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\OrganizationController::store
- * @see app/Http/Controllers/OrganizationController.php:43
+ * @see app/Http/Controllers/OrganizationController.php:45
  * @route '/organizations'
  */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -116,7 +116,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
     /**
 * @see \App\Http\Controllers\OrganizationController::store
- * @see app/Http/Controllers/OrganizationController.php:43
+ * @see app/Http/Controllers/OrganizationController.php:45
  * @route '/organizations'
  */
     const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -126,7 +126,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
             /**
 * @see \App\Http\Controllers\OrganizationController::store
- * @see app/Http/Controllers/OrganizationController.php:43
+ * @see app/Http/Controllers/OrganizationController.php:45
  * @route '/organizations'
  */
         storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -137,7 +137,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     store.form = storeForm
 /**
 * @see \App\Http\Controllers\OrganizationController::join
- * @see app/Http/Controllers/OrganizationController.php:135
+ * @see app/Http/Controllers/OrganizationController.php:138
  * @route '/organizations/join'
  */
 export const join = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -152,7 +152,7 @@ join.definition = {
 
 /**
 * @see \App\Http\Controllers\OrganizationController::join
- * @see app/Http/Controllers/OrganizationController.php:135
+ * @see app/Http/Controllers/OrganizationController.php:138
  * @route '/organizations/join'
  */
 join.url = (options?: RouteQueryOptions) => {
@@ -161,7 +161,7 @@ join.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\OrganizationController::join
- * @see app/Http/Controllers/OrganizationController.php:135
+ * @see app/Http/Controllers/OrganizationController.php:138
  * @route '/organizations/join'
  */
 join.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -171,7 +171,7 @@ join.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
     /**
 * @see \App\Http\Controllers\OrganizationController::join
- * @see app/Http/Controllers/OrganizationController.php:135
+ * @see app/Http/Controllers/OrganizationController.php:138
  * @route '/organizations/join'
  */
     const joinForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -181,7 +181,7 @@ join.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
             /**
 * @see \App\Http\Controllers\OrganizationController::join
- * @see app/Http/Controllers/OrganizationController.php:135
+ * @see app/Http/Controllers/OrganizationController.php:138
  * @route '/organizations/join'
  */
         joinForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -192,7 +192,7 @@ join.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     join.form = joinForm
 /**
 * @see \App\Http\Controllers\OrganizationController::show
- * @see app/Http/Controllers/OrganizationController.php:66
+ * @see app/Http/Controllers/OrganizationController.php:68
  * @route '/organizations/{organization}'
  */
 export const show = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -207,7 +207,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\OrganizationController::show
- * @see app/Http/Controllers/OrganizationController.php:66
+ * @see app/Http/Controllers/OrganizationController.php:68
  * @route '/organizations/{organization}'
  */
 show.url = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions) => {
@@ -240,7 +240,7 @@ show.url = (args: { organization: string | number | { slug: string | number } } 
 
 /**
 * @see \App\Http\Controllers\OrganizationController::show
- * @see app/Http/Controllers/OrganizationController.php:66
+ * @see app/Http/Controllers/OrganizationController.php:68
  * @route '/organizations/{organization}'
  */
 show.get = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -249,7 +249,7 @@ show.get = (args: { organization: string | number | { slug: string | number } } 
 })
 /**
 * @see \App\Http\Controllers\OrganizationController::show
- * @see app/Http/Controllers/OrganizationController.php:66
+ * @see app/Http/Controllers/OrganizationController.php:68
  * @route '/organizations/{organization}'
  */
 show.head = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -259,7 +259,7 @@ show.head = (args: { organization: string | number | { slug: string | number } }
 
     /**
 * @see \App\Http\Controllers\OrganizationController::show
- * @see app/Http/Controllers/OrganizationController.php:66
+ * @see app/Http/Controllers/OrganizationController.php:68
  * @route '/organizations/{organization}'
  */
     const showForm = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -269,7 +269,7 @@ show.head = (args: { organization: string | number | { slug: string | number } }
 
             /**
 * @see \App\Http\Controllers\OrganizationController::show
- * @see app/Http/Controllers/OrganizationController.php:66
+ * @see app/Http/Controllers/OrganizationController.php:68
  * @route '/organizations/{organization}'
  */
         showForm.get = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -278,7 +278,7 @@ show.head = (args: { organization: string | number | { slug: string | number } }
         })
             /**
 * @see \App\Http\Controllers\OrganizationController::show
- * @see app/Http/Controllers/OrganizationController.php:66
+ * @see app/Http/Controllers/OrganizationController.php:68
  * @route '/organizations/{organization}'
  */
         showForm.head = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -294,7 +294,7 @@ show.head = (args: { organization: string | number | { slug: string | number } }
     show.form = showForm
 /**
 * @see \App\Http\Controllers\OrganizationController::update
- * @see app/Http/Controllers/OrganizationController.php:110
+ * @see app/Http/Controllers/OrganizationController.php:113
  * @route '/organizations/{organization}'
  */
 export const update = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -309,7 +309,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\OrganizationController::update
- * @see app/Http/Controllers/OrganizationController.php:110
+ * @see app/Http/Controllers/OrganizationController.php:113
  * @route '/organizations/{organization}'
  */
 update.url = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions) => {
@@ -342,7 +342,7 @@ update.url = (args: { organization: string | number | { slug: string | number } 
 
 /**
 * @see \App\Http\Controllers\OrganizationController::update
- * @see app/Http/Controllers/OrganizationController.php:110
+ * @see app/Http/Controllers/OrganizationController.php:113
  * @route '/organizations/{organization}'
  */
 update.put = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -352,7 +352,7 @@ update.put = (args: { organization: string | number | { slug: string | number } 
 
     /**
 * @see \App\Http\Controllers\OrganizationController::update
- * @see app/Http/Controllers/OrganizationController.php:110
+ * @see app/Http/Controllers/OrganizationController.php:113
  * @route '/organizations/{organization}'
  */
     const updateForm = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -367,7 +367,7 @@ update.put = (args: { organization: string | number | { slug: string | number } 
 
             /**
 * @see \App\Http\Controllers\OrganizationController::update
- * @see app/Http/Controllers/OrganizationController.php:110
+ * @see app/Http/Controllers/OrganizationController.php:113
  * @route '/organizations/{organization}'
  */
         updateForm.put = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -383,7 +383,7 @@ update.put = (args: { organization: string | number | { slug: string | number } 
     update.form = updateForm
 /**
 * @see \App\Http\Controllers\OrganizationController::destroy
- * @see app/Http/Controllers/OrganizationController.php:125
+ * @see app/Http/Controllers/OrganizationController.php:128
  * @route '/organizations/{organization}'
  */
 export const destroy = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -398,7 +398,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\OrganizationController::destroy
- * @see app/Http/Controllers/OrganizationController.php:125
+ * @see app/Http/Controllers/OrganizationController.php:128
  * @route '/organizations/{organization}'
  */
 destroy.url = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions) => {
@@ -431,7 +431,7 @@ destroy.url = (args: { organization: string | number | { slug: string | number }
 
 /**
 * @see \App\Http\Controllers\OrganizationController::destroy
- * @see app/Http/Controllers/OrganizationController.php:125
+ * @see app/Http/Controllers/OrganizationController.php:128
  * @route '/organizations/{organization}'
  */
 destroy.delete = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -441,7 +441,7 @@ destroy.delete = (args: { organization: string | number | { slug: string | numbe
 
     /**
 * @see \App\Http\Controllers\OrganizationController::destroy
- * @see app/Http/Controllers/OrganizationController.php:125
+ * @see app/Http/Controllers/OrganizationController.php:128
  * @route '/organizations/{organization}'
  */
     const destroyForm = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -456,7 +456,7 @@ destroy.delete = (args: { organization: string | number | { slug: string | numbe
 
             /**
 * @see \App\Http\Controllers\OrganizationController::destroy
- * @see app/Http/Controllers/OrganizationController.php:125
+ * @see app/Http/Controllers/OrganizationController.php:128
  * @route '/organizations/{organization}'
  */
         destroyForm.delete = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -472,7 +472,7 @@ destroy.delete = (args: { organization: string | number | { slug: string | numbe
     destroy.form = destroyForm
 /**
 * @see \App\Http\Controllers\OrganizationController::regenerateCode
- * @see app/Http/Controllers/OrganizationController.php:174
+ * @see app/Http/Controllers/OrganizationController.php:177
  * @route '/organizations/{organization}/regenerate-code'
  */
 export const regenerateCode = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -487,7 +487,7 @@ regenerateCode.definition = {
 
 /**
 * @see \App\Http\Controllers\OrganizationController::regenerateCode
- * @see app/Http/Controllers/OrganizationController.php:174
+ * @see app/Http/Controllers/OrganizationController.php:177
  * @route '/organizations/{organization}/regenerate-code'
  */
 regenerateCode.url = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions) => {
@@ -520,7 +520,7 @@ regenerateCode.url = (args: { organization: string | number | { slug: string | n
 
 /**
 * @see \App\Http\Controllers\OrganizationController::regenerateCode
- * @see app/Http/Controllers/OrganizationController.php:174
+ * @see app/Http/Controllers/OrganizationController.php:177
  * @route '/organizations/{organization}/regenerate-code'
  */
 regenerateCode.post = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -530,7 +530,7 @@ regenerateCode.post = (args: { organization: string | number | { slug: string | 
 
     /**
 * @see \App\Http\Controllers\OrganizationController::regenerateCode
- * @see app/Http/Controllers/OrganizationController.php:174
+ * @see app/Http/Controllers/OrganizationController.php:177
  * @route '/organizations/{organization}/regenerate-code'
  */
     const regenerateCodeForm = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -540,7 +540,7 @@ regenerateCode.post = (args: { organization: string | number | { slug: string | 
 
             /**
 * @see \App\Http\Controllers\OrganizationController::regenerateCode
- * @see app/Http/Controllers/OrganizationController.php:174
+ * @see app/Http/Controllers/OrganizationController.php:177
  * @route '/organizations/{organization}/regenerate-code'
  */
         regenerateCodeForm.post = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -551,7 +551,7 @@ regenerateCode.post = (args: { organization: string | number | { slug: string | 
     regenerateCode.form = regenerateCodeForm
 /**
 * @see \App\Http\Controllers\OrganizationController::transferOwnership
- * @see app/Http/Controllers/OrganizationController.php:188
+ * @see app/Http/Controllers/OrganizationController.php:191
  * @route '/organizations/{organization}/transfer-ownership'
  */
 export const transferOwnership = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -566,7 +566,7 @@ transferOwnership.definition = {
 
 /**
 * @see \App\Http\Controllers\OrganizationController::transferOwnership
- * @see app/Http/Controllers/OrganizationController.php:188
+ * @see app/Http/Controllers/OrganizationController.php:191
  * @route '/organizations/{organization}/transfer-ownership'
  */
 transferOwnership.url = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions) => {
@@ -599,7 +599,7 @@ transferOwnership.url = (args: { organization: string | number | { slug: string 
 
 /**
 * @see \App\Http\Controllers\OrganizationController::transferOwnership
- * @see app/Http/Controllers/OrganizationController.php:188
+ * @see app/Http/Controllers/OrganizationController.php:191
  * @route '/organizations/{organization}/transfer-ownership'
  */
 transferOwnership.post = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -609,7 +609,7 @@ transferOwnership.post = (args: { organization: string | number | { slug: string
 
     /**
 * @see \App\Http\Controllers\OrganizationController::transferOwnership
- * @see app/Http/Controllers/OrganizationController.php:188
+ * @see app/Http/Controllers/OrganizationController.php:191
  * @route '/organizations/{organization}/transfer-ownership'
  */
     const transferOwnershipForm = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -619,7 +619,7 @@ transferOwnership.post = (args: { organization: string | number | { slug: string
 
             /**
 * @see \App\Http\Controllers\OrganizationController::transferOwnership
- * @see app/Http/Controllers/OrganizationController.php:188
+ * @see app/Http/Controllers/OrganizationController.php:191
  * @route '/organizations/{organization}/transfer-ownership'
  */
         transferOwnershipForm.post = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -630,7 +630,7 @@ transferOwnership.post = (args: { organization: string | number | { slug: string
     transferOwnership.form = transferOwnershipForm
 /**
 * @see \App\Http\Controllers\OrganizationController::leave
- * @see app/Http/Controllers/OrganizationController.php:211
+ * @see app/Http/Controllers/OrganizationController.php:214
  * @route '/organizations/{organization}/leave'
  */
 export const leave = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -645,7 +645,7 @@ leave.definition = {
 
 /**
 * @see \App\Http\Controllers\OrganizationController::leave
- * @see app/Http/Controllers/OrganizationController.php:211
+ * @see app/Http/Controllers/OrganizationController.php:214
  * @route '/organizations/{organization}/leave'
  */
 leave.url = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions) => {
@@ -678,7 +678,7 @@ leave.url = (args: { organization: string | number | { slug: string | number } }
 
 /**
 * @see \App\Http\Controllers\OrganizationController::leave
- * @see app/Http/Controllers/OrganizationController.php:211
+ * @see app/Http/Controllers/OrganizationController.php:214
  * @route '/organizations/{organization}/leave'
  */
 leave.post = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -688,7 +688,7 @@ leave.post = (args: { organization: string | number | { slug: string | number } 
 
     /**
 * @see \App\Http\Controllers\OrganizationController::leave
- * @see app/Http/Controllers/OrganizationController.php:211
+ * @see app/Http/Controllers/OrganizationController.php:214
  * @route '/organizations/{organization}/leave'
  */
     const leaveForm = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -698,7 +698,7 @@ leave.post = (args: { organization: string | number | { slug: string | number } 
 
             /**
 * @see \App\Http\Controllers\OrganizationController::leave
- * @see app/Http/Controllers/OrganizationController.php:211
+ * @see app/Http/Controllers/OrganizationController.php:214
  * @route '/organizations/{organization}/leave'
  */
         leaveForm.post = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -707,6 +707,108 @@ leave.post = (args: { organization: string | number | { slug: string | number } 
         })
     
     leave.form = leaveForm
+/**
+* @see \App\Http\Controllers\OrganizationController::exportMethod
+ * @see app/Http/Controllers/OrganizationController.php:229
+ * @route '/organizations/{organization}/export'
+ */
+export const exportMethod = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: exportMethod.url(args, options),
+    method: 'get',
+})
+
+exportMethod.definition = {
+    methods: ["get","head"],
+    url: '/organizations/{organization}/export',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\OrganizationController::exportMethod
+ * @see app/Http/Controllers/OrganizationController.php:229
+ * @route '/organizations/{organization}/export'
+ */
+exportMethod.url = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { organization: args }
+    }
+
+            if (typeof args === 'object' && !Array.isArray(args) && 'slug' in args) {
+            args = { organization: args.slug }
+        }
+    
+    if (Array.isArray(args)) {
+        args = {
+                    organization: args[0],
+                }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+                        organization: typeof args.organization === 'object'
+                ? args.organization.slug
+                : args.organization,
+                }
+
+    return exportMethod.definition.url
+            .replace('{organization}', parsedArgs.organization.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\OrganizationController::exportMethod
+ * @see app/Http/Controllers/OrganizationController.php:229
+ * @route '/organizations/{organization}/export'
+ */
+exportMethod.get = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: exportMethod.url(args, options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\OrganizationController::exportMethod
+ * @see app/Http/Controllers/OrganizationController.php:229
+ * @route '/organizations/{organization}/export'
+ */
+exportMethod.head = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: exportMethod.url(args, options),
+    method: 'head',
+})
+
+    /**
+* @see \App\Http\Controllers\OrganizationController::exportMethod
+ * @see app/Http/Controllers/OrganizationController.php:229
+ * @route '/organizations/{organization}/export'
+ */
+    const exportMethodForm = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: exportMethod.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\OrganizationController::exportMethod
+ * @see app/Http/Controllers/OrganizationController.php:229
+ * @route '/organizations/{organization}/export'
+ */
+        exportMethodForm.get = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: exportMethod.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\OrganizationController::exportMethod
+ * @see app/Http/Controllers/OrganizationController.php:229
+ * @route '/organizations/{organization}/export'
+ */
+        exportMethodForm.head = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: exportMethod.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    exportMethod.form = exportMethodForm
 /**
 * @see \App\Http\Controllers\OrganizationMemberController::invite
  * @see app/Http/Controllers/OrganizationMemberController.php:143
@@ -796,6 +898,7 @@ destroy: Object.assign(destroy, destroy),
 regenerateCode: Object.assign(regenerateCode, regenerateCode),
 transferOwnership: Object.assign(transferOwnership, transferOwnership),
 leave: Object.assign(leave, leave),
+export: Object.assign(exportMethod, exportMethod),
 members: Object.assign(members, members),
 requests: Object.assign(requests, requests),
 invite: Object.assign(invite, invite),

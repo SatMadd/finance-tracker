@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use App\Models\OrganizationMember;
+use App\Services\SimpleXlsxExporter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class OrganizationController extends Controller
 {
@@ -76,8 +78,9 @@ class OrganizationController extends Controller
 
         $today = now()->toDateString();
         $monthStart = now()->startOfMonth()->toDateString();
+        $monthEnd = now()->endOfMonth()->toDateString();
 
-        $monthQuery = fn () => $organization->transactions()->whereBetween('date', [$monthStart, $today]);
+        $monthQuery = fn () => $organization->transactions()->whereBetween('date', [$monthStart, $monthEnd]);
 
         return Inertia::render('organizations/show', [
             'organization' => [
@@ -221,5 +224,73 @@ class OrganizationController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => "You left \"{$organization->name}\"."]);
 
         return to_route('organizations.index');
+    }
+
+    public function export(Request $request, Organization $organization): BinaryFileResponse|RedirectResponse
+    {
+        if (! $organization->hasMember($request->user()->id)) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'You do not have access to this organization.']);
+
+            return to_route('organizations.index');
+        }
+
+        $filters = $request->validate([
+            'from' => ['nullable', 'date'],
+            'to' => ['nullable', 'date'],
+            'type' => ['nullable', 'in:all,income,expense'],
+        ]);
+
+        $query = $organization->transactions()
+            ->with(['category', 'createdBy:id,name,username,email'])
+            ->when($filters['from'] ?? null, fn ($q, $v) => $q->whereDate('date', '>=', $v))
+            ->when($filters['to'] ?? null, fn ($q, $v) => $q->whereDate('date', '<=', $v))
+            ->when(($filters['type'] ?? 'all') !== 'all', fn ($q) => $q->where('type', $filters['type']))
+            ->orderBy('date')
+            ->orderBy('id');
+
+        $transactions = $query->get();
+
+        $headers = [
+            'Date',
+            'Type',
+            'Category',
+            'Description',
+            'Amount',
+            'Payment Method',
+            'Recorded By',
+            'Email',
+            'Notes',
+        ];
+
+        $rows = [];
+        foreach ($transactions as $tx) {
+            $rows[] = [
+                $tx->date->toDateString(),
+                ucfirst($tx->type),
+                $tx->category?->name ?? 'Uncategorized',
+                $tx->description,
+                (float) $tx->amount,
+                $tx->payment_method ?? 'Cash',
+                $tx->createdBy ? $tx->createdBy->name.' (@'.$tx->createdBy->username.')' : 'Member',
+                $tx->createdBy?->email ?? '-',
+                $tx->notes ?? '',
+            ];
+        }
+
+        $sheetTitle = mb_substr($organization->name, 0, 25).' Finance';
+        $filePath = SimpleXlsxExporter::create($headers, $rows, $sheetTitle);
+
+        $safeOrgName = Str::slug($organization->name, '_') ?: 'Organization';
+        $dateSuffix = now()->format('Y-m-d');
+        if (! empty($filters['from']) && ! empty($filters['to'])) {
+            $dateSuffix = $filters['from'].'_to_'.$filters['to'];
+        }
+        $fileName = "{$safeOrgName}_Financial_Report_{$dateSuffix}.xlsx";
+
+        return response()->download($filePath, $fileName, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => 'attachment; filename="'.$fileName.'"',
+            'Cache-Control' => 'no-store, no-cache, must-revalidate',
+        ])->deleteFileAfterSend(true);
     }
 }
