@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->foreignId('organization_id')->nullable()->after('user_id')->constrained()->nullOnDelete();
+            $table->foreignId('created_by')->nullable()->after('organization_id')->constrained('users')->nullOnDelete();
+            $table->index('organization_id');
+        });
+
+        Schema::table('categories', function (Blueprint $table) {
+            $table->foreignId('organization_id')->nullable()->after('user_id')->constrained()->nullOnDelete();
+            $table->index('organization_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->dropForeign(['organization_id']);
+            $table->dropForeign(['created_by']);
+            $table->dropColumn(['organization_id', 'created_by']);
+        });
+
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropForeign(['organization_id']);
+            $table->dropColumn('organization_id');
+        });
+    }
+};

@@ -13,7 +13,7 @@ class Transaction extends Model
     use HasFactory;
 
     /** @var list<string> */
-    protected $fillable = ['user_id', 'category_id', 'type', 'description', 'amount', 'date', 'payment_method', 'notes'];
+    protected $fillable = ['user_id', 'organization_id', 'created_by', 'category_id', 'type', 'description', 'amount', 'date', 'payment_method', 'notes'];
 
     /** @return array<string, string> */
     protected function casts(): array
@@ -25,6 +25,18 @@ class Transaction extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /** @return BelongsTo<User, $this> */
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /** @return BelongsTo<Organization, $this> */
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
     }
 
     /** @return BelongsTo<Category, $this> */

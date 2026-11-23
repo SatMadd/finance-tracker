@@ -6,6 +6,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -54,12 +55,39 @@ class User extends Authenticatable implements PasskeyUser
     /** @return HasMany<Transaction, $this> */
     public function transactions(): HasMany
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class)->whereNull('organization_id');
     }
 
     /** @return HasMany<Category, $this> */
     public function categories(): HasMany
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(Category::class)->whereNull('organization_id');
+    }
+
+    /** @return HasMany<OrganizationMember, $this> */
+    public function organizationMembers(): HasMany
+    {
+        return $this->hasMany(OrganizationMember::class);
+    }
+
+    /** @return BelongsToMany<Organization, $this> */
+    public function organizations(): BelongsToMany
+    {
+        return $this->belongsToMany(Organization::class, 'organization_members')
+            ->withPivot(['role', 'label', 'joined_at'])
+            ->orderBy('name');
+    }
+
+    public function organizationRole(int $orgId): ?string
+    {
+        return $this->organizationMembers()->where('organization_id', $orgId)->value('role');
+    }
+
+    public function isOwnerOrCoOwnerOf(int $orgId): bool
+    {
+        return $this->organizationMembers()
+            ->where('organization_id', $orgId)
+            ->whereIn('role', ['owner', 'co_owner'])
+            ->exists();
     }
 }

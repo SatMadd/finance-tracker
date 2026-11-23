@@ -1,10 +1,8 @@
 // Components
-import { Form, Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
-import { logout } from '@/routes';
-import { send } from '@/routes/verification';
+import { dashboard, logout } from '@/routes';
 
 export default function VerifyEmail({ status }: { status?: string }) {
     return (
@@ -18,23 +16,20 @@ export default function VerifyEmail({ status }: { status?: string }) {
                 </div>
             )}
 
-            <Form {...send.form()} className="space-y-6 text-center">
-                {({ processing }) => (
-                    <>
-                        <Button disabled={processing} variant="secondary">
-                            {processing && <Spinner />}
-                            Resend verification email
-                        </Button>
+            <div className="space-y-6 text-center">
+                <Button asChild variant="secondary">
+                    <Link href={dashboard()}>
+                        Go to Dashboard
+                    </Link>
+                </Button>
 
-                        <TextLink
-                            href={logout()}
-                            className="mx-auto block text-sm"
-                        >
-                            Log out
-                        </TextLink>
-                    </>
-                )}
-            </Form>
+                <TextLink
+                    href={logout()}
+                    className="mx-auto block text-sm"
+                >
+                    Log out
+                </TextLink>
+            </div>
         </>
     );
 }
@@ -42,5 +37,5 @@ export default function VerifyEmail({ status }: { status?: string }) {
 VerifyEmail.layout = {
     title: 'Email verification',
     description:
-        'Please verify your email address by clicking on the link we just emailed to you.',
+        'Your email is verified. You can access your dashboard now.',
 };
