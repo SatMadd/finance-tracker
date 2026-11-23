@@ -60,7 +60,7 @@ class OrganizationController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => "Organization \"{$org->name}\" created."]);
 
-        return to_route('organizations.show', $org->slug);
+        return to_route('organizations.show', $org);
     }
 
     public function show(Request $request, Organization $organization): Response
@@ -88,8 +88,8 @@ class OrganizationController extends Controller
             'isManager' => $isManager,
             'stats' => [
                 'todayTotal' => $organization->transactions()->whereDate('date', $today)->sum('amount'),
-                'monthTotal' => (clone $baseQuery())->sum('amount'),
-                'monthCount' => (clone $baseQuery())->count(),
+                'monthTotal' => $baseQuery()->sum('amount'),
+                'monthCount' => $baseQuery()->count(),
             ],
             'latestTransactions' => $organization->transactions()
                 ->with(['category', 'createdBy:id,name,username,email'])
