@@ -40,7 +40,7 @@
         "CACHE_STORE": "database",
         "QUEUE_CONNECTION": "sync",
         "LOG_CHANNEL": "stderr",
-        "MAIL_MAILER": "resend",
+        "MAIL_MAILER": "log",
         "MAIL_FROM_ADDRESS": "onboarding@resend.dev",
         "MAIL_FROM_NAME": "Daily Ledger"
     }
