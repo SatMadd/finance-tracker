@@ -1,5 +1,5 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft, Check } from 'lucide-react';
+import { ArrowLeft, Save } from 'lucide-react';
 import { useMemo } from 'react';
 import type { FormEvent } from 'react';
 import { dashboard } from '@/routes';
@@ -12,6 +12,9 @@ type CategoryOption = {
     color: string;
     type?: string;
 };
+
+const fieldClass =
+    'mt-2 h-11 w-full rounded-xl border border-input bg-background px-3 text-sm shadow-xs outline-none transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50';
 
 export default function OrgTransactionCreate({
     organization,
@@ -62,220 +65,246 @@ export default function OrgTransactionCreate({
     return (
         <>
             <Head title={`Record Transaction - ${organization.name}`} />
-            <main className="mx-auto max-w-2xl space-y-6 p-4 sm:p-6 lg:p-8">
-                <div>
-                    <Link
-                        href={orgTransactionsIndex(organization.slug)}
-                        className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground"
-                    >
-                        <ArrowLeft size={14} />
-                        Back to Team Transactions
-                    </Link>
-                    <h1 className="mt-2 text-2xl font-bold tracking-tight">
-                        Record Transaction
-                    </h1>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                        Record a purchase or income on behalf of{' '}
-                        <strong>{organization.name}</strong>.
-                    </p>
-                </div>
-
-                <form
-                    onSubmit={submit}
-                    className="space-y-5 rounded-2xl border bg-card p-6 shadow-xs"
+            <div className="mx-auto max-w-3xl p-4 sm:p-6 lg:p-8">
+                <Link
+                    href={orgTransactionsIndex(organization.slug)}
+                    className="mb-6 inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
                 >
-                    {/* Type Selector: Income / Expense */}
-                    <div>
-                        <label className="block text-xs font-medium text-muted-foreground">
-                            Type
-                        </label>
-                        <div className="mt-1.5 grid grid-cols-2 gap-2">
-                            <button
-                                type="button"
-                                onClick={() => handleTypeChange('expense')}
-                                className={`h-10 rounded-xl border text-sm font-medium transition ${
-                                    form.data.type === 'expense'
-                                        ? 'border-primary bg-primary/10 text-primary'
-                                        : 'bg-background text-muted-foreground hover:bg-muted'
-                                }`}
-                            >
-                                Expense
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleTypeChange('income')}
-                                className={`h-10 rounded-xl border text-sm font-medium transition ${
-                                    form.data.type === 'income'
-                                        ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                                        : 'bg-background text-muted-foreground hover:bg-muted'
-                                }`}
-                            >
-                                Income
-                            </button>
-                        </div>
+                    <ArrowLeft size={16} /> Back to transactions
+                </Link>
+
+                <div className="rounded-2xl border bg-card p-5 shadow-sm sm:p-8">
+                    <div className="mb-7">
+                        <p className="text-sm font-medium text-primary">
+                            Transaction details
+                        </p>
+                        <h1 className="mt-1 text-2xl font-semibold tracking-tight">
+                            Add a transaction
+                        </h1>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                            Record{' '}
+                            {form.data.type === 'income'
+                                ? 'income'
+                                : 'a purchase'}{' '}
+                            for <strong>{organization.name}</strong> so team
+                            finances stay up to date.
+                        </p>
                     </div>
 
-                    {/* Amount */}
-                    <div>
-                        <label className="block text-xs font-medium text-muted-foreground">
-                            Amount ({currency || 'USD'}) *
-                        </label>
-                        <input
-                            type="number"
-                            step="0.01"
-                            min="0.01"
-                            required
-                            value={form.data.amount}
-                            onChange={(e) =>
-                                form.setData('amount', e.target.value)
-                            }
-                            placeholder="0.00"
-                            className="mt-1.5 h-11 w-full rounded-xl border bg-background px-3 text-lg font-semibold outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                        />
-                        {form.errors.amount && (
-                            <p className="mt-1 text-xs text-destructive">
-                                {form.errors.amount}
-                            </p>
-                        )}
-                    </div>
-
-                    {/* Description */}
-                    <div>
-                        <label className="block text-xs font-medium text-muted-foreground">
-                            Description *
-                        </label>
-                        <input
-                            type="text"
-                            required
-                            maxLength={255}
-                            value={form.data.description}
-                            onChange={(e) =>
-                                form.setData('description', e.target.value)
-                            }
-                            placeholder="e.g. Office supplies, Team lunch, Cloud hosting..."
-                            className="mt-1.5 h-10 w-full rounded-xl border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                        />
-                        {form.errors.description && (
-                            <p className="mt-1 text-xs text-destructive">
-                                {form.errors.description}
-                            </p>
-                        )}
-                    </div>
-
-                    {/* Category & Date in 2 columns */}
-                    <div className="grid gap-4 sm:grid-cols-2">
+                    <form onSubmit={submit} className="space-y-5">
+                        {/* Transaction Type Toggle */}
                         <div>
-                            <label className="block text-xs font-medium text-muted-foreground">
+                            <label className="text-sm font-medium">
+                                Transaction type
+                            </label>
+                            <div className="mt-2 grid grid-cols-2 gap-2">
+                                <button
+                                    type="button"
+                                    onClick={() => handleTypeChange('expense')}
+                                    className={`h-11 rounded-xl border text-sm font-medium transition ${
+                                        form.data.type === 'expense'
+                                            ? 'border-primary bg-primary/10 font-semibold text-primary'
+                                            : 'bg-background text-muted-foreground hover:bg-muted'
+                                    }`}
+                                >
+                                    Expense
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => handleTypeChange('income')}
+                                    className={`h-11 rounded-xl border text-sm font-medium transition ${
+                                        form.data.type === 'income'
+                                            ? 'border-emerald-500 bg-emerald-500/10 font-semibold text-emerald-600 dark:text-emerald-400'
+                                            : 'bg-background text-muted-foreground hover:bg-muted'
+                                    }`}
+                                >
+                                    Income
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Fields Grid */}
+                        <div className="grid gap-5 sm:grid-cols-2">
+                            {/* Description */}
+                            <label className="text-sm font-medium sm:col-span-2">
+                                Description
+                                <input
+                                    required
+                                    maxLength={255}
+                                    className={fieldClass}
+                                    placeholder={
+                                        form.data.type === 'income'
+                                            ? 'Example: Client payment, Monthly grant'
+                                            : 'Example: Office supplies, Software license'
+                                    }
+                                    value={form.data.description}
+                                    onChange={(e) =>
+                                        form.setData(
+                                            'description',
+                                            e.target.value,
+                                        )
+                                    }
+                                />
+                                {form.errors.description && (
+                                    <span className="mt-1 block text-xs text-destructive">
+                                        {form.errors.description}
+                                    </span>
+                                )}
+                            </label>
+
+                            {/* Amount */}
+                            <label className="text-sm font-medium">
+                                Amount ({currency})
+                                <input
+                                    inputMode="decimal"
+                                    type="number"
+                                    min="0.01"
+                                    step="0.01"
+                                    required
+                                    className={fieldClass}
+                                    placeholder="Example: 125000"
+                                    value={form.data.amount}
+                                    onChange={(e) =>
+                                        form.setData('amount', e.target.value)
+                                    }
+                                />
+                                {form.errors.amount && (
+                                    <span className="mt-1 block text-xs text-destructive">
+                                        {form.errors.amount}
+                                    </span>
+                                )}
+                            </label>
+
+                            {/* Category Dropdown */}
+                            <label className="text-sm font-medium">
                                 Category (
                                 {form.data.type === 'income'
                                     ? 'Income'
                                     : 'Expense'}
-                                ) *
+                                )
+                                <select
+                                    className={fieldClass}
+                                    value={form.data.category_id}
+                                    onChange={(e) =>
+                                        form.setData(
+                                            'category_id',
+                                            e.target.value,
+                                        )
+                                    }
+                                >
+                                    <option value="">Choose a category</option>
+                                    {filteredCategories.map((category) => (
+                                        <option
+                                            key={category.id}
+                                            value={category.id}
+                                        >
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                {form.errors.category_id && (
+                                    <span className="mt-1 block text-xs text-destructive">
+                                        {form.errors.category_id}
+                                    </span>
+                                )}
                             </label>
-                            <select
-                                required
-                                value={form.data.category_id}
-                                onChange={(e) =>
-                                    form.setData('category_id', e.target.value)
-                                }
-                                className="mt-1.5 h-10 w-full rounded-xl border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+
+                            {/* Date */}
+                            <label className="text-sm font-medium">
+                                Date
+                                <input
+                                    type="date"
+                                    required
+                                    className={fieldClass}
+                                    value={form.data.date}
+                                    onChange={(e) =>
+                                        form.setData('date', e.target.value)
+                                    }
+                                />
+                                {form.errors.date && (
+                                    <span className="mt-1 block text-xs text-destructive">
+                                        {form.errors.date}
+                                    </span>
+                                )}
+                            </label>
+
+                            {/* Payment Method */}
+                            <label className="text-sm font-medium">
+                                Payment method
+                                <select
+                                    className={fieldClass}
+                                    value={form.data.payment_method}
+                                    onChange={(e) =>
+                                        form.setData(
+                                            'payment_method',
+                                            e.target.value,
+                                        )
+                                    }
+                                >
+                                    {[
+                                        'Cash',
+                                        'Debit card',
+                                        'Credit card',
+                                        'Digital wallet',
+                                        'Bank transfer',
+                                        'Other',
+                                    ].map((method) => (
+                                        <option key={method}>{method}</option>
+                                    ))}
+                                </select>
+                                {form.errors.payment_method && (
+                                    <span className="mt-1 block text-xs text-destructive">
+                                        {form.errors.payment_method}
+                                    </span>
+                                )}
+                            </label>
+
+                            {/* Notes */}
+                            <label className="text-sm font-medium sm:col-span-2">
+                                Notes{' '}
+                                <span className="font-normal text-muted-foreground">
+                                    (optional)
+                                </span>
+                                <textarea
+                                    rows={4}
+                                    maxLength={3000}
+                                    className="mt-2 w-full resize-y rounded-xl border border-input bg-background px-3 py-2.5 text-sm shadow-xs transition outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+                                    placeholder="Additional details or reference notes..."
+                                    value={form.data.notes}
+                                    onChange={(e) =>
+                                        form.setData('notes', e.target.value)
+                                    }
+                                />
+                                {form.errors.notes && (
+                                    <span className="mt-1 block text-xs text-destructive">
+                                        {form.errors.notes}
+                                    </span>
+                                )}
+                            </label>
+                        </div>
+
+                        {/* Footer Buttons */}
+                        <div className="flex justify-end gap-3 border-t pt-5">
+                            <Link
+                                href={orgTransactionsIndex(organization.slug)}
+                                className="inline-flex h-10 items-center rounded-xl border px-4 text-sm font-medium transition hover:bg-muted"
                             >
-                                {filteredCategories.map((c) => (
-                                    <option key={c.id} value={c.id}>
-                                        {c.name}
-                                    </option>
-                                ))}
-                            </select>
-                            {form.errors.category_id && (
-                                <p className="mt-1 text-xs text-destructive">
-                                    {form.errors.category_id}
-                                </p>
-                            )}
+                                Cancel
+                            </Link>
+                            <button
+                                type="submit"
+                                disabled={form.processing}
+                                className="inline-flex h-10 items-center gap-2 rounded-xl bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
+                            >
+                                <Save size={16} />
+                                {form.processing
+                                    ? 'Saving…'
+                                    : 'Save transaction'}
+                            </button>
                         </div>
-
-                        <div>
-                            <label className="block text-xs font-medium text-muted-foreground">
-                                Date *
-                            </label>
-                            <input
-                                type="date"
-                                required
-                                value={form.data.date}
-                                onChange={(e) =>
-                                    form.setData('date', e.target.value)
-                                }
-                                className="mt-1.5 h-10 w-full rounded-xl border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                            />
-                            {form.errors.date && (
-                                <p className="mt-1 text-xs text-destructive">
-                                    {form.errors.date}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Payment Method */}
-                    <div>
-                        <label className="block text-xs font-medium text-muted-foreground">
-                            Payment Method
-                        </label>
-                        <select
-                            value={form.data.payment_method}
-                            onChange={(e) =>
-                                form.setData('payment_method', e.target.value)
-                            }
-                            className="mt-1.5 h-10 w-full rounded-xl border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                        >
-                            <option value="Cash">Cash</option>
-                            <option value="Corporate card">
-                                Corporate card
-                            </option>
-                            <option value="Debit card">Debit card</option>
-                            <option value="Credit card">Credit card</option>
-                            <option value="Bank transfer">Bank transfer</option>
-                            <option value="Digital wallet">
-                                Digital wallet
-                            </option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-
-                    {/* Notes */}
-                    <div>
-                        <label className="block text-xs font-medium text-muted-foreground">
-                            Notes / Reference (optional)
-                        </label>
-                        <textarea
-                            rows={3}
-                            maxLength={1000}
-                            value={form.data.notes}
-                            onChange={(e) =>
-                                form.setData('notes', e.target.value)
-                            }
-                            placeholder="Add invoice number, receipt URL, or team context..."
-                            className="mt-1.5 w-full rounded-xl border bg-background p-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                        />
-                    </div>
-
-                    {/* Buttons */}
-                    <div className="flex items-center justify-end gap-3 pt-3">
-                        <Link
-                            href={orgTransactionsIndex(organization.slug)}
-                            className="h-10 rounded-xl border px-4 py-2 text-sm font-medium hover:bg-muted"
-                        >
-                            Cancel
-                        </Link>
-                        <button
-                            type="submit"
-                            disabled={form.processing}
-                            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-primary px-5 text-sm font-medium text-primary-foreground disabled:opacity-50"
-                        >
-                            <Check size={16} />
-                            Save Transaction
-                        </button>
-                    </div>
-                </form>
-            </main>
+                    </form>
+                </div>
+            </div>
         </>
     );
 }
