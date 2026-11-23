@@ -39,7 +39,7 @@ class TransactionController extends Controller
             'categories' => Category::query()
                 ->where(fn ($query) => $query->whereNull('user_id')->orWhere('user_id', $request->user()->id))
                 ->orderBy('name')
-                ->get(['id', 'name', 'color']),
+                ->get(['id', 'name', 'color', 'type']),
             'filters' => $filters,
             'currency' => $request->user()->currency,
             'dateFormat' => $request->user()->date_format,
@@ -56,7 +56,13 @@ class TransactionController extends Controller
 
     public function store(StoreTransactionRequest $request): RedirectResponse
     {
-        $transaction = $request->user()->transactions()->create($request->validated());
+        $data = $request->validated();
+        if (empty($data['type'])) {
+            $category = Category::find($data['category_id']);
+            $data['type'] = $category?->type ?? 'expense';
+        }
+
+        $transaction = $request->user()->transactions()->create($data);
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Transaction added.']);
 
         return to_route('transactions.show', $transaction);
@@ -88,7 +94,12 @@ class TransactionController extends Controller
     public function update(UpdateTransactionRequest $request, Transaction $transaction): RedirectResponse
     {
         abort_unless($transaction->user_id === $request->user()->id, 404);
-        $transaction->update($request->validated());
+        $data = $request->validated();
+        if (empty($data['type'])) {
+            $category = Category::find($data['category_id']);
+            $data['type'] = $category?->type ?? 'expense';
+        }
+        $transaction->update($data);
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Transaction updated.']);
 
         return to_route('transactions.show', $transaction);
@@ -109,6 +120,6 @@ class TransactionController extends Controller
         return Category::query()
             ->where(fn ($query) => $query->whereNull('user_id')->orWhere('user_id', $request->user()->id))
             ->orderBy('name')
-            ->get(['id', 'name', 'color']);
+            ->get(['id', 'name', 'color', 'type']);
     }
 }

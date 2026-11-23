@@ -212,7 +212,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     store.form = storeForm
 /**
 * @see \App\Http\Controllers\TransactionController::show
- * @see app/Http/Controllers/TransactionController.php:65
+ * @see app/Http/Controllers/TransactionController.php:71
  * @route '/transactions/{transaction}'
  */
 export const show = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -227,7 +227,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\TransactionController::show
- * @see app/Http/Controllers/TransactionController.php:65
+ * @see app/Http/Controllers/TransactionController.php:71
  * @route '/transactions/{transaction}'
  */
 show.url = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
@@ -260,7 +260,7 @@ show.url = (args: { transaction: string | number | { id: string | number } } | [
 
 /**
 * @see \App\Http\Controllers\TransactionController::show
- * @see app/Http/Controllers/TransactionController.php:65
+ * @see app/Http/Controllers/TransactionController.php:71
  * @route '/transactions/{transaction}'
  */
 show.get = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -269,7 +269,7 @@ show.get = (args: { transaction: string | number | { id: string | number } } | [
 })
 /**
 * @see \App\Http\Controllers\TransactionController::show
- * @see app/Http/Controllers/TransactionController.php:65
+ * @see app/Http/Controllers/TransactionController.php:71
  * @route '/transactions/{transaction}'
  */
 show.head = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -279,7 +279,7 @@ show.head = (args: { transaction: string | number | { id: string | number } } | 
 
     /**
 * @see \App\Http\Controllers\TransactionController::show
- * @see app/Http/Controllers/TransactionController.php:65
+ * @see app/Http/Controllers/TransactionController.php:71
  * @route '/transactions/{transaction}'
  */
     const showForm = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -289,7 +289,7 @@ show.head = (args: { transaction: string | number | { id: string | number } } | 
 
             /**
 * @see \App\Http\Controllers\TransactionController::show
- * @see app/Http/Controllers/TransactionController.php:65
+ * @see app/Http/Controllers/TransactionController.php:71
  * @route '/transactions/{transaction}'
  */
         showForm.get = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -298,7 +298,7 @@ show.head = (args: { transaction: string | number | { id: string | number } } | 
         })
             /**
 * @see \App\Http\Controllers\TransactionController::show
- * @see app/Http/Controllers/TransactionController.php:65
+ * @see app/Http/Controllers/TransactionController.php:71
  * @route '/transactions/{transaction}'
  */
         showForm.head = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -314,7 +314,7 @@ show.head = (args: { transaction: string | number | { id: string | number } } | 
     show.form = showForm
 /**
 * @see \App\Http\Controllers\TransactionController::edit
- * @see app/Http/Controllers/TransactionController.php:77
+ * @see app/Http/Controllers/TransactionController.php:83
  * @route '/transactions/{transaction}/edit'
  */
 export const edit = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -329,7 +329,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\TransactionController::edit
- * @see app/Http/Controllers/TransactionController.php:77
+ * @see app/Http/Controllers/TransactionController.php:83
  * @route '/transactions/{transaction}/edit'
  */
 edit.url = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
@@ -362,7 +362,7 @@ edit.url = (args: { transaction: string | number | { id: string | number } } | [
 
 /**
 * @see \App\Http\Controllers\TransactionController::edit
- * @see app/Http/Controllers/TransactionController.php:77
+ * @see app/Http/Controllers/TransactionController.php:83
  * @route '/transactions/{transaction}/edit'
  */
 edit.get = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -371,7 +371,7 @@ edit.get = (args: { transaction: string | number | { id: string | number } } | [
 })
 /**
 * @see \App\Http\Controllers\TransactionController::edit
- * @see app/Http/Controllers/TransactionController.php:77
+ * @see app/Http/Controllers/TransactionController.php:83
  * @route '/transactions/{transaction}/edit'
  */
 edit.head = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -381,7 +381,7 @@ edit.head = (args: { transaction: string | number | { id: string | number } } | 
 
     /**
 * @see \App\Http\Controllers\TransactionController::edit
- * @see app/Http/Controllers/TransactionController.php:77
+ * @see app/Http/Controllers/TransactionController.php:83
  * @route '/transactions/{transaction}/edit'
  */
     const editForm = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -391,7 +391,7 @@ edit.head = (args: { transaction: string | number | { id: string | number } } | 
 
             /**
 * @see \App\Http\Controllers\TransactionController::edit
- * @see app/Http/Controllers/TransactionController.php:77
+ * @see app/Http/Controllers/TransactionController.php:83
  * @route '/transactions/{transaction}/edit'
  */
         editForm.get = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -400,7 +400,7 @@ edit.head = (args: { transaction: string | number | { id: string | number } } | 
         })
             /**
 * @see \App\Http\Controllers\TransactionController::edit
- * @see app/Http/Controllers/TransactionController.php:77
+ * @see app/Http/Controllers/TransactionController.php:83
  * @route '/transactions/{transaction}/edit'
  */
         editForm.head = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -416,7 +416,7 @@ edit.head = (args: { transaction: string | number | { id: string | number } } | 
     edit.form = editForm
 /**
 * @see \App\Http\Controllers\TransactionController::update
- * @see app/Http/Controllers/TransactionController.php:88
+ * @see app/Http/Controllers/TransactionController.php:94
  * @route '/transactions/{transaction}'
  */
 export const update = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -431,7 +431,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\TransactionController::update
- * @see app/Http/Controllers/TransactionController.php:88
+ * @see app/Http/Controllers/TransactionController.php:94
  * @route '/transactions/{transaction}'
  */
 update.url = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
@@ -464,7 +464,7 @@ update.url = (args: { transaction: string | number | { id: string | number } } |
 
 /**
 * @see \App\Http\Controllers\TransactionController::update
- * @see app/Http/Controllers/TransactionController.php:88
+ * @see app/Http/Controllers/TransactionController.php:94
  * @route '/transactions/{transaction}'
  */
 update.put = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -473,7 +473,7 @@ update.put = (args: { transaction: string | number | { id: string | number } } |
 })
 /**
 * @see \App\Http\Controllers\TransactionController::update
- * @see app/Http/Controllers/TransactionController.php:88
+ * @see app/Http/Controllers/TransactionController.php:94
  * @route '/transactions/{transaction}'
  */
 update.patch = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -483,7 +483,7 @@ update.patch = (args: { transaction: string | number | { id: string | number } }
 
     /**
 * @see \App\Http\Controllers\TransactionController::update
- * @see app/Http/Controllers/TransactionController.php:88
+ * @see app/Http/Controllers/TransactionController.php:94
  * @route '/transactions/{transaction}'
  */
     const updateForm = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -498,7 +498,7 @@ update.patch = (args: { transaction: string | number | { id: string | number } }
 
             /**
 * @see \App\Http\Controllers\TransactionController::update
- * @see app/Http/Controllers/TransactionController.php:88
+ * @see app/Http/Controllers/TransactionController.php:94
  * @route '/transactions/{transaction}'
  */
         updateForm.put = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -512,7 +512,7 @@ update.patch = (args: { transaction: string | number | { id: string | number } }
         })
             /**
 * @see \App\Http\Controllers\TransactionController::update
- * @see app/Http/Controllers/TransactionController.php:88
+ * @see app/Http/Controllers/TransactionController.php:94
  * @route '/transactions/{transaction}'
  */
         updateForm.patch = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -528,7 +528,7 @@ update.patch = (args: { transaction: string | number | { id: string | number } }
     update.form = updateForm
 /**
 * @see \App\Http\Controllers\TransactionController::destroy
- * @see app/Http/Controllers/TransactionController.php:97
+ * @see app/Http/Controllers/TransactionController.php:108
  * @route '/transactions/{transaction}'
  */
 export const destroy = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -543,7 +543,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\TransactionController::destroy
- * @see app/Http/Controllers/TransactionController.php:97
+ * @see app/Http/Controllers/TransactionController.php:108
  * @route '/transactions/{transaction}'
  */
 destroy.url = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
@@ -576,7 +576,7 @@ destroy.url = (args: { transaction: string | number | { id: string | number } } 
 
 /**
 * @see \App\Http\Controllers\TransactionController::destroy
- * @see app/Http/Controllers/TransactionController.php:97
+ * @see app/Http/Controllers/TransactionController.php:108
  * @route '/transactions/{transaction}'
  */
 destroy.delete = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -586,7 +586,7 @@ destroy.delete = (args: { transaction: string | number | { id: string | number }
 
     /**
 * @see \App\Http\Controllers\TransactionController::destroy
- * @see app/Http/Controllers/TransactionController.php:97
+ * @see app/Http/Controllers/TransactionController.php:108
  * @route '/transactions/{transaction}'
  */
     const destroyForm = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -601,7 +601,7 @@ destroy.delete = (args: { transaction: string | number | { id: string | number }
 
             /**
 * @see \App\Http\Controllers\TransactionController::destroy
- * @see app/Http/Controllers/TransactionController.php:97
+ * @see app/Http/Controllers/TransactionController.php:108
  * @route '/transactions/{transaction}'
  */
         destroyForm.delete = (args: { transaction: string | number | { id: string | number } } | [transaction: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

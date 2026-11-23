@@ -35,7 +35,7 @@ class OrgTransactionController extends Controller
         $categories = Category::query()
             ->where(fn ($q) => $q->where(fn ($sub) => $sub->whereNull('organization_id')->whereNull('user_id'))->orWhere('organization_id', $organization->id))
             ->orderBy('name')
-            ->get(['id', 'name', 'color']);
+            ->get(['id', 'name', 'color', 'type']);
 
         return Inertia::render('organizations/transactions', [
             'organization' => ['id' => $organization->id, 'name' => $organization->name, 'slug' => $organization->slug],
@@ -55,7 +55,7 @@ class OrgTransactionController extends Controller
         $categories = Category::query()
             ->where(fn ($q) => $q->where(fn ($sub) => $sub->whereNull('organization_id')->whereNull('user_id'))->orWhere('organization_id', $organization->id))
             ->orderBy('name')
-            ->get(['id', 'name', 'color']);
+            ->get(['id', 'name', 'color', 'type']);
 
         return Inertia::render('organizations/transaction-create', [
             'organization' => ['id' => $organization->id, 'name' => $organization->name, 'slug' => $organization->slug],

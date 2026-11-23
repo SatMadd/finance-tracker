@@ -25,6 +25,7 @@ class UpdateTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'type' => ['nullable', 'string', Rule::in(['expense', 'income'])],
             'description' => ['required', 'string', 'max:255'],
             'amount' => ['required', 'numeric', 'gt:0', 'max:9999999999.99'],
             'category_id' => [

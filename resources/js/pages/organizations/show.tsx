@@ -12,6 +12,8 @@ import {
     Settings,
     Shield,
     Trash2,
+    TrendingDown,
+    TrendingUp,
     UserCheck,
     Users,
     Wallet,
@@ -46,6 +48,7 @@ type OrgTransaction = {
     description: string;
     amount: string | number;
     date: string;
+    type?: 'income' | 'expense';
     category?: { id: number; name: string; color: string } | null;
     created_by?: CreatedByUser | null;
 };
@@ -65,6 +68,8 @@ export default function OrganizationShow({
         todayTotal: number | string;
         monthTotal: number | string;
         monthCount: number;
+        monthIncome?: number | string;
+        monthExpense?: number | string;
     };
     latestTransactions: OrgTransaction[];
     pendingRequestsCount: number;
@@ -119,6 +124,12 @@ export default function OrganizationShow({
             : userRole === 'co_owner'
               ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20'
               : 'bg-muted text-muted-foreground border-border';
+
+    const orgIncome = Number(stats.monthIncome ?? 0);
+    const orgExpense = Number(stats.monthExpense ?? stats.monthTotal ?? 0);
+    const orgRemaining = orgIncome - orgExpense;
+    const orgHasZeroIncome = orgIncome === 0;
+    const orgIsOverBudget = orgHasZeroIncome ? orgExpense > 0 : orgRemaining < 0;
 
     return (
         <>
@@ -220,36 +231,85 @@ export default function OrganizationShow({
                 </nav>
 
                 {/* Metrics */}
-                <section className="grid gap-4 sm:grid-cols-3">
+                <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    {/* Budget / Balance Card */}
+                    <div
+                        className={`rounded-2xl border p-5 shadow-xs transition ${
+                            orgIsOverBudget
+                                ? 'border-red-500/30 bg-red-500/10 dark:bg-red-950/20 text-red-600 dark:text-red-400'
+                                : 'border-border bg-card text-foreground'
+                        }`}
+                    >
+                        <div className="flex items-center justify-between text-sm">
+                            <span className={orgIsOverBudget ? 'font-semibold text-red-600 dark:text-red-400' : 'text-muted-foreground'}>
+                                Budget Balance
+                            </span>
+                            {orgIsOverBudget ? (
+                                <TrendingDown size={18} className="text-red-500" />
+                            ) : (
+                                <Wallet size={18} className="text-muted-foreground" />
+                            )}
+                        </div>
+                        <p
+                            className={`mt-4 text-2xl font-bold tracking-tight ${
+                                orgIsOverBudget ? 'text-red-600 dark:text-red-400' : 'text-foreground'
+                            }`}
+                        >
+                            {orgHasZeroIncome
+                                ? (orgExpense > 0 ? `-${formatMoney(orgExpense, 'USD')}` : formatMoney(0, 'USD'))
+                                : (orgRemaining < 0 ? `-${formatMoney(Math.abs(orgRemaining), 'USD')}` : formatMoney(orgRemaining, 'USD'))}
+                        </p>
+                        <p
+                            className={`mt-1.5 text-xs ${
+                                orgIsOverBudget
+                                    ? 'font-medium text-red-600/90 dark:text-red-400/90'
+                                    : 'text-muted-foreground'
+                            }`}
+                        >
+                            {orgHasZeroIncome
+                                ? (orgExpense > 0 ? 'Over budget · 0 income recorded' : '0 income recorded')
+                                : (orgRemaining < 0
+                                    ? `Over budget by ${formatMoney(Math.abs(orgRemaining), 'USD')}`
+                                    : `Remaining of ${formatMoney(orgIncome, 'USD')} income`)}
+                        </p>
+                    </div>
+
+                    {/* Team Income */}
+                    <div className="rounded-2xl border bg-card p-5 shadow-xs">
+                        <div className="flex items-center justify-between text-sm text-muted-foreground">
+                            <span>Team Income</span>
+                            <TrendingUp size={18} className="text-emerald-500" />
+                        </div>
+                        <p className="mt-4 text-2xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400">
+                            {formatMoney(orgIncome, 'USD')}
+                        </p>
+                        <p className="mt-1.5 text-xs text-muted-foreground">Recorded team income</p>
+                    </div>
+
+                    {/* Month Spending */}
+                    <div className="rounded-2xl border bg-card p-5 shadow-xs">
+                        <div className="flex items-center justify-between text-sm text-muted-foreground">
+                            <span>Month Spending</span>
+                            <Wallet size={18} />
+                        </div>
+                        <p className="mt-4 text-2xl font-bold tracking-tight">
+                            {formatMoney(orgExpense, 'USD')}
+                        </p>
+                        <p className="mt-1.5 text-xs text-muted-foreground">Cumulative team spend</p>
+                    </div>
+
+                    {/* Today's Total */}
                     <div className="rounded-2xl border bg-card p-5 shadow-xs">
                         <div className="flex items-center justify-between text-sm text-muted-foreground">
                             <span>Today's Total</span>
-                            <CalendarDays size={17} />
+                            <CalendarDays size={18} />
                         </div>
-                        <p className="mt-3 text-2xl font-semibold tracking-tight">
+                        <p className="mt-4 text-2xl font-bold tracking-tight">
                             {formatMoney(stats.todayTotal, 'USD')}
                         </p>
-                        <p className="mt-1 text-xs text-muted-foreground">Team purchases today</p>
-                    </div>
-
-                    <div className="rounded-2xl border bg-card p-5 shadow-xs">
-                        <div className="flex items-center justify-between text-sm text-muted-foreground">
-                            <span>Month-to-Date</span>
-                            <Wallet size={17} />
-                        </div>
-                        <p className="mt-3 text-2xl font-semibold tracking-tight">
-                            {formatMoney(stats.monthTotal, 'USD')}
+                        <p className="mt-1.5 text-xs text-muted-foreground">
+                            {stats.monthCount} {stats.monthCount === 1 ? 'transaction' : 'transactions'} this month
                         </p>
-                        <p className="mt-1 text-xs text-muted-foreground">Cumulative team spend</p>
-                    </div>
-
-                    <div className="rounded-2xl border bg-card p-5 shadow-xs">
-                        <div className="flex items-center justify-between text-sm text-muted-foreground">
-                            <span>Monthly Count</span>
-                            <ReceiptText size={17} />
-                        </div>
-                        <p className="mt-3 text-2xl font-semibold tracking-tight">{stats.monthCount}</p>
-                        <p className="mt-1 text-xs text-muted-foreground">Team transactions recorded</p>
                     </div>
                 </section>
 
@@ -297,7 +357,14 @@ export default function OrganizationShow({
                                             </div>
                                         </div>
                                     </div>
-                                    <span className="shrink-0 text-sm font-semibold">
+                                    <span
+                                        className={`shrink-0 text-sm font-semibold ${
+                                            tx.type === 'income'
+                                                ? 'text-emerald-600 dark:text-emerald-400'
+                                                : 'text-foreground'
+                                        }`}
+                                    >
+                                        {tx.type === 'income' ? '+' : '-'}
                                         {formatMoney(tx.amount, 'USD')}
                                     </span>
                                 </div>

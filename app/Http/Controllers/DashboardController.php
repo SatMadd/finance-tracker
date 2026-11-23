@@ -15,12 +15,16 @@ class DashboardController extends Controller
         $today = now()->toDateString();
         $monthStart = now()->startOfMonth()->toDateString();
 
+        $monthQuery = fn () => $user->transactions()->whereBetween('date', [$monthStart, $today]);
+
         return Inertia::render('dashboard', [
             'currency' => $user->currency,
             'dateFormat' => $user->date_format,
-            'todayTotal' => $user->transactions()->whereDate('date', $today)->sum('amount'),
-            'monthTotal' => $user->transactions()->whereBetween('date', [$monthStart, $today])->sum('amount'),
-            'monthCount' => $user->transactions()->whereBetween('date', [$monthStart, $today])->count(),
+            'todayTotal' => $user->transactions()->whereDate('date', $today)->where('type', 'expense')->sum('amount'),
+            'monthTotal' => $monthQuery()->where('type', 'expense')->sum('amount'),
+            'monthCount' => $monthQuery()->count(),
+            'monthIncome' => $monthQuery()->where('type', 'income')->sum('amount'),
+            'monthExpense' => $monthQuery()->where('type', 'expense')->sum('amount'),
             'latestTransactions' => $user->transactions()
                 ->with('category')
                 ->orderByDesc('date')

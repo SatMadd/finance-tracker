@@ -73,7 +73,7 @@ class OrganizationController extends Controller
         $today = now()->toDateString();
         $monthStart = now()->startOfMonth()->toDateString();
 
-        $baseQuery = fn () => $organization->transactions()->whereBetween('date', [$monthStart, $today]);
+        $monthQuery = fn () => $organization->transactions()->whereBetween('date', [$monthStart, $today]);
 
         return Inertia::render('organizations/show', [
             'organization' => [
@@ -87,9 +87,11 @@ class OrganizationController extends Controller
             'userRole' => $userRole,
             'isManager' => $isManager,
             'stats' => [
-                'todayTotal' => $organization->transactions()->whereDate('date', $today)->sum('amount'),
-                'monthTotal' => $baseQuery()->sum('amount'),
-                'monthCount' => $baseQuery()->count(),
+                'todayTotal' => $organization->transactions()->whereDate('date', $today)->where('type', 'expense')->sum('amount'),
+                'monthTotal' => $monthQuery()->where('type', 'expense')->sum('amount'),
+                'monthCount' => $monthQuery()->count(),
+                'monthIncome' => $monthQuery()->where('type', 'income')->sum('amount'),
+                'monthExpense' => $monthQuery()->where('type', 'expense')->sum('amount'),
             ],
             'latestTransactions' => $organization->transactions()
                 ->with(['category', 'createdBy:id,name,username,email'])

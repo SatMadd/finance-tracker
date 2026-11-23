@@ -1,11 +1,12 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, Check, PlusCircle } from 'lucide-react';
+import { useMemo } from 'react';
 import type { FormEvent } from 'react';
 import { dashboard } from '@/routes';
 import { index as organizationsIndex, show as organizationShow } from '@/routes/organizations';
 import { index as orgTransactionsIndex } from '@/routes/organizations/transactions';
 
-type CategoryOption = { id: number; name: string; color: string };
+type CategoryOption = { id: number; name: string; color: string; type?: string };
 
 export default function OrgTransactionCreate({
     organization,
@@ -25,6 +26,20 @@ export default function OrgTransactionCreate({
         payment_method: 'Cash',
         notes: '',
     });
+
+    const filteredCategories = useMemo(() => {
+        return categories.filter((c) => !c.type || c.type === form.data.type);
+    }, [categories, form.data.type]);
+
+    function handleTypeChange(newType: 'expense' | 'income') {
+        const nextCategories = categories.filter((c) => !c.type || c.type === newType);
+        const currentCategoryValid = nextCategories.some((c) => String(c.id) === form.data.category_id);
+        form.setData((prev) => ({
+            ...prev,
+            type: newType,
+            category_id: currentCategoryValid ? prev.category_id : (nextCategories[0] ? String(nextCategories[0].id) : ''),
+        }));
+    }
 
     function submit(e: FormEvent) {
         e.preventDefault();
@@ -56,7 +71,7 @@ export default function OrgTransactionCreate({
                         <div className="mt-1.5 grid grid-cols-2 gap-2">
                             <button
                                 type="button"
-                                onClick={() => form.setData('type', 'expense')}
+                                onClick={() => handleTypeChange('expense')}
                                 className={`h-10 rounded-xl border text-sm font-medium transition ${
                                     form.data.type === 'expense'
                                         ? 'border-primary bg-primary/10 text-primary'
@@ -67,7 +82,7 @@ export default function OrgTransactionCreate({
                             </button>
                             <button
                                 type="button"
-                                onClick={() => form.setData('type', 'income')}
+                                onClick={() => handleTypeChange('income')}
                                 className={`h-10 rounded-xl border text-sm font-medium transition ${
                                     form.data.type === 'income'
                                         ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
@@ -122,7 +137,7 @@ export default function OrgTransactionCreate({
                     <div className="grid gap-4 sm:grid-cols-2">
                         <div>
                             <label className="block text-xs font-medium text-muted-foreground">
-                                Category *
+                                Category ({form.data.type === 'income' ? 'Income' : 'Expense'}) *
                             </label>
                             <select
                                 required
@@ -130,7 +145,7 @@ export default function OrgTransactionCreate({
                                 onChange={(e) => form.setData('category_id', e.target.value)}
                                 className="mt-1.5 h-10 w-full rounded-xl border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             >
-                                {categories.map((c) => (
+                                {filteredCategories.map((c) => (
                                     <option key={c.id} value={c.id}>
                                         {c.name}
                                     </option>

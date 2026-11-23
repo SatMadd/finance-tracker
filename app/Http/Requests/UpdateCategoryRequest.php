@@ -25,6 +25,7 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:60', Rule::unique('categories', 'name')->where('user_id', $this->user()->id)->ignore($this->route('category'))],
+            'type' => ['nullable', 'string', Rule::in(['expense', 'income'])],
             'color' => ['required', 'regex:/^#[a-fA-F0-9]{6}$/'],
         ];
     }
