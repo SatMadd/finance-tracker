@@ -73,16 +73,29 @@ class Organization extends Model
 
     public function memberRole(int $userId): ?string
     {
-        return $this->members()->where('user_id', $userId)->value('role');
+        $role = $this->members()->where('user_id', $userId)->value('role');
+        if (! $role && $this->owner_id === $userId) {
+            return 'owner';
+        }
+
+        return $role;
     }
 
     public function hasMember(int $userId): bool
     {
+        if ($this->owner_id === $userId) {
+            return true;
+        }
+
         return $this->members()->where('user_id', $userId)->exists();
     }
 
     public function isOwnerOrCoOwner(int $userId): bool
     {
+        if ($this->owner_id === $userId) {
+            return true;
+        }
+
         return $this->members()
             ->where('user_id', $userId)
             ->whereIn('role', ['owner', 'co_owner'])

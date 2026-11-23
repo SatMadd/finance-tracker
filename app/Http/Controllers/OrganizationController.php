@@ -63,9 +63,13 @@ class OrganizationController extends Controller
         return to_route('organizations.show', $org);
     }
 
-    public function show(Request $request, Organization $organization): Response
+    public function show(Request $request, Organization $organization): Response|RedirectResponse
     {
-        $this->authorize('view', $organization);
+        if (! $organization->hasMember($request->user()->id)) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'You do not have access to this organization.']);
+
+            return to_route('organizations.index');
+        }
 
         $userRole = $organization->memberRole($request->user()->id);
         $isManager = $organization->isOwnerOrCoOwner($request->user()->id);

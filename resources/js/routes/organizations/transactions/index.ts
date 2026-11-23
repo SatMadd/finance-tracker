@@ -103,7 +103,7 @@ index.head = (args: { organization: string | number | { slug: string | number } 
     index.form = indexForm
 /**
 * @see \App\Http\Controllers\OrgTransactionController::create
- * @see app/Http/Controllers/OrgTransactionController.php:50
+ * @see app/Http/Controllers/OrgTransactionController.php:54
  * @route '/organizations/{organization}/transactions/create'
  */
 export const create = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -118,7 +118,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\OrgTransactionController::create
- * @see app/Http/Controllers/OrgTransactionController.php:50
+ * @see app/Http/Controllers/OrgTransactionController.php:54
  * @route '/organizations/{organization}/transactions/create'
  */
 create.url = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions) => {
@@ -151,7 +151,7 @@ create.url = (args: { organization: string | number | { slug: string | number } 
 
 /**
 * @see \App\Http\Controllers\OrgTransactionController::create
- * @see app/Http/Controllers/OrgTransactionController.php:50
+ * @see app/Http/Controllers/OrgTransactionController.php:54
  * @route '/organizations/{organization}/transactions/create'
  */
 create.get = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -160,7 +160,7 @@ create.get = (args: { organization: string | number | { slug: string | number } 
 })
 /**
 * @see \App\Http\Controllers\OrgTransactionController::create
- * @see app/Http/Controllers/OrgTransactionController.php:50
+ * @see app/Http/Controllers/OrgTransactionController.php:54
  * @route '/organizations/{organization}/transactions/create'
  */
 create.head = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -170,7 +170,7 @@ create.head = (args: { organization: string | number | { slug: string | number }
 
     /**
 * @see \App\Http\Controllers\OrgTransactionController::create
- * @see app/Http/Controllers/OrgTransactionController.php:50
+ * @see app/Http/Controllers/OrgTransactionController.php:54
  * @route '/organizations/{organization}/transactions/create'
  */
     const createForm = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -180,7 +180,7 @@ create.head = (args: { organization: string | number | { slug: string | number }
 
             /**
 * @see \App\Http\Controllers\OrgTransactionController::create
- * @see app/Http/Controllers/OrgTransactionController.php:50
+ * @see app/Http/Controllers/OrgTransactionController.php:54
  * @route '/organizations/{organization}/transactions/create'
  */
         createForm.get = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -189,7 +189,7 @@ create.head = (args: { organization: string | number | { slug: string | number }
         })
             /**
 * @see \App\Http\Controllers\OrgTransactionController::create
- * @see app/Http/Controllers/OrgTransactionController.php:50
+ * @see app/Http/Controllers/OrgTransactionController.php:54
  * @route '/organizations/{organization}/transactions/create'
  */
         createForm.head = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -205,7 +205,7 @@ create.head = (args: { organization: string | number | { slug: string | number }
     create.form = createForm
 /**
 * @see \App\Http\Controllers\OrgTransactionController::store
- * @see app/Http/Controllers/OrgTransactionController.php:66
+ * @see app/Http/Controllers/OrgTransactionController.php:74
  * @route '/organizations/{organization}/transactions'
  */
 export const store = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -220,7 +220,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\OrgTransactionController::store
- * @see app/Http/Controllers/OrgTransactionController.php:66
+ * @see app/Http/Controllers/OrgTransactionController.php:74
  * @route '/organizations/{organization}/transactions'
  */
 store.url = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions) => {
@@ -253,7 +253,7 @@ store.url = (args: { organization: string | number | { slug: string | number } }
 
 /**
 * @see \App\Http\Controllers\OrgTransactionController::store
- * @see app/Http/Controllers/OrgTransactionController.php:66
+ * @see app/Http/Controllers/OrgTransactionController.php:74
  * @route '/organizations/{organization}/transactions'
  */
 store.post = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -263,7 +263,7 @@ store.post = (args: { organization: string | number | { slug: string | number } 
 
     /**
 * @see \App\Http\Controllers\OrgTransactionController::store
- * @see app/Http/Controllers/OrgTransactionController.php:66
+ * @see app/Http/Controllers/OrgTransactionController.php:74
  * @route '/organizations/{organization}/transactions'
  */
     const storeForm = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -273,7 +273,7 @@ store.post = (args: { organization: string | number | { slug: string | number } 
 
             /**
 * @see \App\Http\Controllers\OrgTransactionController::store
- * @see app/Http/Controllers/OrgTransactionController.php:66
+ * @see app/Http/Controllers/OrgTransactionController.php:74
  * @route '/organizations/{organization}/transactions'
  */
         storeForm.post = (args: { organization: string | number | { slug: string | number } } | [organization: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -284,7 +284,7 @@ store.post = (args: { organization: string | number | { slug: string | number } 
     store.form = storeForm
 /**
 * @see \App\Http\Controllers\OrgTransactionController::destroy
- * @see app/Http/Controllers/OrgTransactionController.php:90
+ * @see app/Http/Controllers/OrgTransactionController.php:98
  * @route '/organizations/{organization}/transactions/{transaction}'
  */
 export const destroy = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -299,7 +299,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\OrgTransactionController::destroy
- * @see app/Http/Controllers/OrgTransactionController.php:90
+ * @see app/Http/Controllers/OrgTransactionController.php:98
  * @route '/organizations/{organization}/transactions/{transaction}'
  */
 destroy.url = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions) => {
@@ -329,7 +329,7 @@ destroy.url = (args: { organization: string | number | { slug: string | number }
 
 /**
 * @see \App\Http\Controllers\OrgTransactionController::destroy
- * @see app/Http/Controllers/OrgTransactionController.php:90
+ * @see app/Http/Controllers/OrgTransactionController.php:98
  * @route '/organizations/{organization}/transactions/{transaction}'
  */
 destroy.delete = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -339,7 +339,7 @@ destroy.delete = (args: { organization: string | number | { slug: string | numbe
 
     /**
 * @see \App\Http\Controllers\OrgTransactionController::destroy
- * @see app/Http/Controllers/OrgTransactionController.php:90
+ * @see app/Http/Controllers/OrgTransactionController.php:98
  * @route '/organizations/{organization}/transactions/{transaction}'
  */
     const destroyForm = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -354,7 +354,7 @@ destroy.delete = (args: { organization: string | number | { slug: string | numbe
 
             /**
 * @see \App\Http\Controllers\OrgTransactionController::destroy
- * @see app/Http/Controllers/OrgTransactionController.php:90
+ * @see app/Http/Controllers/OrgTransactionController.php:98
  * @route '/organizations/{organization}/transactions/{transaction}'
  */
         destroyForm.delete = (args: { organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } } | [organization: string | number | { slug: string | number }, transaction: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

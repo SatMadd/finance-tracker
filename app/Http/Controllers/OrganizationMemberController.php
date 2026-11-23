@@ -12,9 +12,13 @@ use Inertia\Response;
 
 class OrganizationMemberController extends Controller
 {
-    public function index(Request $request, Organization $organization): Response
+    public function index(Request $request, Organization $organization): Response|RedirectResponse
     {
-        $this->authorize('view', $organization);
+        if (! $organization->hasMember($request->user()->id)) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'You do not have access to this organization.']);
+
+            return to_route('organizations.index');
+        }
 
         $isManager = $organization->isOwnerOrCoOwner($request->user()->id);
         $userRole = $organization->memberRole($request->user()->id);

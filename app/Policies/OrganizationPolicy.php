@@ -19,7 +19,7 @@ class OrganizationPolicy
 
     public function delete(User $user, Organization $organization): bool
     {
-        return $organization->memberRole($user->id) === 'owner';
+        return $organization->owner_id === $user->id || $organization->memberRole($user->id) === 'owner';
     }
 
     public function manageMembers(User $user, Organization $organization): bool
@@ -29,6 +29,6 @@ class OrganizationPolicy
 
     public function transferOwnership(User $user, Organization $organization): bool
     {
-        return $organization->memberRole($user->id) === 'owner';
+        return $organization->owner_id === $user->id || $organization->memberRole($user->id) === 'owner';
     }
 }

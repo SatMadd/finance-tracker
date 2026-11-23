@@ -12,9 +12,13 @@ use Inertia\Response;
 
 class OrgTransactionController extends Controller
 {
-    public function index(Request $request, Organization $organization): Response
+    public function index(Request $request, Organization $organization): Response|RedirectResponse
     {
-        $this->authorize('view', $organization);
+        if (! $organization->hasMember($request->user()->id)) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'You do not have access to this organization.']);
+
+            return to_route('organizations.index');
+        }
 
         $isManager = $organization->isOwnerOrCoOwner($request->user()->id);
 
@@ -47,9 +51,13 @@ class OrgTransactionController extends Controller
         ]);
     }
 
-    public function create(Request $request, Organization $organization): Response
+    public function create(Request $request, Organization $organization): Response|RedirectResponse
     {
-        $this->authorize('view', $organization);
+        if (! $organization->hasMember($request->user()->id)) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'You do not have access to this organization.']);
+
+            return to_route('organizations.index');
+        }
 
         $categories = Category::query()
             ->where(fn ($q) => $q->where(fn ($sub) => $sub->whereNull('organization_id')->whereNull('user_id'))->orWhere('organization_id', $organization->id))
