@@ -1,4 +1,6 @@
+/vendor
 .env
+/vendor
 .env.*
 tests
 storage/logs/*
